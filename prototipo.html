@@ -240,7 +240,6 @@
            <div class="soh-chart-legend mt-4">
             <span><i class="soh-line-sample"></i>Histórico</span>
             <span><i class="soh-line-sample projected"></i>Projeção futura</span>
-            <span>Cores suaves = condição atual · Hover = destaque</span>
            </div>
            <div id="soh-chart-wrap" class="soh-chart-wrap mt-4" aria-label="Gráfico temporal de SOH das células">
             <svg id="soh-history-chart" viewBox="0 0 1000 430" role="img" aria-labelledby="soh-chart-title soh-chart-desc"></svg>
@@ -533,8 +532,6 @@
       }[type][status];
 
       let [sohMean,sohSd,sohMin,sohMax,rulMean,rulSd]=profiles;
-      // Em módulos densamente degradados, a distribuição inteira se desloca levemente para baixo,
-      // sem transformar todas as células do módulo na mesma condição.
       const densitySohPenalty=status==='healthy'?moduleDensity*(type==='corolla'?2.0:1.5):moduleDensity*0.8;
       const sohPercent=Number(Math.min(sohMax,Math.max(sohMin,clippedNormal(seedBase,sohMean,sohSd,sohMin,sohMax)-densitySohPenalty)).toFixed(1));
 
@@ -547,7 +544,6 @@
       const voltageNoise=pseudoNormal(seedBase+211)*(type==='corolla'?0.006:0.012);
       const voltageV=Number((data.nominalV-statusVoltageBias-moduleDensity*(type==='corolla'?0.008:0.012)+voltageNoise).toFixed(3));
 
-      // Temperatura é parcialmente correlacionada com SOH/resistência, mas também depende da carga/localização.
       const thermalNoise=pseudoNormal(seedBase+307)*0.75;
       const resistanceHeat=status==='critical'?1.8:status==='intermediate'?0.8:0;
       const agingHeat=(100-sohPercent)*0.12;
@@ -592,7 +588,6 @@
       const flagged=[...new Set([...data.criticalCells,...data.intermediateCells])].sort((a,b)=>a-b);
       const cfg=data.decisionModel;
 
-      // Primeiro o motor avalia a concentração local. Uma célula intermediária isolada não obriga a abertura do módulo.
       const moduleStats={};
       for(let m=1;m<=totalModules;m++) moduleStats[m]={flagged:0,critical:0,intermediate:0,cells:[]};
       flagged.forEach(c=>{
@@ -603,8 +598,6 @@
         else moduleStats[m].intermediate++;
       });
       const affectedModules=Object.keys(moduleStats).map(Number).filter(m=>moduleStats[m].flagged>0);
-      // Regra de abertura do módulo: qualquer célula crítica OU pelo menos 30% das células do módulo em desgaste intermediário.
-      // O limiar é configurável por arquitetura e, por enquanto, vale 30% para todos os veículos.
       const interventionModules=affectedModules.filter(m=>{
         const intermediateRatio=moduleStats[m].intermediate/moduleSize;
         return moduleStats[m].critical>0 || intermediateRatio>=cfg.intermediateModuleThreshold;
@@ -616,7 +609,6 @@
       const healthyCells=totalCells-flagged.length;
       const monitoringPenalty=monitoredCells.length*cfg.monitoringCostPerCell;
 
-      // Risco cresce com o número de módulos que precisam ser abertos/manipulados.
       const openings=Math.max(1,interventionModules.length);
       const scaleProb=(p,n)=>1-Math.pow(1-p,n);
 
@@ -888,6 +880,7 @@
       });
       return {metrics:m,historical,future,projectedRulMonths:solveRulFromProjection(m,preservationActive)};
     }
+    
     function renderSohHistoryChart(){
       const svg=document.getElementById('soh-history-chart');
       const wrap=document.getElementById('soh-chart-wrap');
@@ -896,13 +889,16 @@
       svg.replaceChildren();
       const type=vehicle.value;
       const cellCount=type==='corolla'?168:96;
-      const W=1000,H=430,margin={l:58,r:22,t:28,b:48};
+      
+      const W=1000,H=430,margin={l:58,r:55,t:28,b:48}; 
       const minMonth=-24,maxMonth=60,minSoh=45,maxSoh=100;
       const x=m=>margin.l+(m-minMonth)/(maxMonth-minMonth)*(W-margin.l-margin.r);
       const y=s=>margin.t+(maxSoh-s)/(maxSoh-minSoh)*(H-margin.t-margin.b);
+      
       const title=svgEl('title',{id:'soh-chart-title'});title.textContent='Evolução e projeção do SOH por célula';svg.appendChild(title);
       const desc=svgEl('desc',{id:'soh-chart-desc'});desc.textContent='Linhas contínuas representam o histórico de SOH, todas iniciando em 100%, e linhas tracejadas representam as projeções futuras para cada célula.';svg.appendChild(desc);
       const bg=svgEl('rect',{x:0,y:0,width:W,height:H,fill:'#202023'});svg.appendChild(bg);
+      
       [50,60,70,80,90,100].forEach(v=>{
         const gy=y(v);svg.appendChild(svgEl('line',{x1:margin.l,y1:gy,x2:W-margin.r,y2:gy,stroke:'#404046','stroke-width':1}));
         const t=svgEl('text',{x:margin.l-10,y:gy+4,fill:'#A6A7AC','font-size':10,'font-family':'Space Mono, monospace','text-anchor':'end'});t.textContent=v+'%';svg.appendChild(t);
@@ -911,27 +907,96 @@
         const gx=x(v);svg.appendChild(svgEl('line',{x1:gx,y1:margin.t,x2:gx,y2:H-margin.b,stroke:v===0?'#68686d':'#343438','stroke-width':v===0?1.4:1}));
         const t=svgEl('text',{x:gx,y:H-margin.b+22,fill:'#A6A7AC','font-size':10,'font-family':'Space Mono, monospace','text-anchor':'middle'});t.textContent=v===0?'Hoje':(v<0?Math.abs(v)+'m atrás':'+'+v+'m');svg.appendChild(t);
       });
+      
       const yLabel=svgEl('text',{x:17,y:H/2,fill:'#D9DADD','font-size':11,'font-family':'Space Mono, monospace',transform:'rotate(-90 17 '+H/2+')','text-anchor':'middle'});yLabel.textContent='SOH (%)';svg.appendChild(yLabel);
       const defs=svgEl('defs');const clip=svgEl('clipPath',{id:'soh-plot-clip'});clip.appendChild(svgEl('rect',{x:margin.l,y:margin.t,width:W-margin.l-margin.r,height:H-margin.t-margin.b}));defs.appendChild(clip);svg.appendChild(defs);
       const plot=svgEl('g',{'clip-path':'url(#soh-plot-clip)'});svg.appendChild(plot);
       const pathString=pts=>pts.map((p,i)=>(i?'L':'M')+x(p.month).toFixed(1)+' '+y(p.soh).toFixed(1)).join(' ');
+      
       let hovered=null;
-      function resetHovered(){if(!hovered)return;hovered.hist.setAttribute('stroke',hovered.baseColor);hovered.hist.setAttribute('stroke-width','1');hovered.hist.setAttribute('opacity','.48');hovered.proj.setAttribute('stroke',hovered.baseColor);hovered.proj.setAttribute('stroke-width','1');hovered.proj.setAttribute('opacity','.56');tooltip.style.display='none';hovered=null;}
+      function resetHovered(){
+        if(!hovered)return;
+        hovered.hist.setAttribute('stroke',hovered.baseColor);
+        hovered.hist.setAttribute('stroke-width','1');
+        hovered.hist.setAttribute('opacity','.48');
+        hovered.proj.setAttribute('stroke',hovered.baseColor);
+        hovered.proj.setAttribute('stroke-width','1');
+        hovered.proj.setAttribute('opacity','.56');
+        
+        hovered.label.setAttribute('opacity', '0');
+        hovered.label.setAttribute('font-size', '9');
+        hovered.label.setAttribute('font-weight', 'normal');
+        
+        tooltip.style.display='none';
+        hovered=null;
+      }
+      
       for(let cell=1;cell<=cellCount;cell++){
         const tr=getSohTrajectory(type,cell);
         const baseColor=cellWearMutedColor(tr.metrics.status);
         const hist=svgEl('path',{d:pathString(tr.historical),fill:'none',stroke:baseColor,'stroke-width':1,opacity:.48,'vector-effect':'non-scaling-stroke'});
         const proj=svgEl('path',{d:pathString(tr.future),fill:'none',stroke:baseColor,'stroke-width':1,opacity:.56,'stroke-dasharray':'5 5','vector-effect':'non-scaling-stroke'});
         plot.appendChild(hist);plot.appendChild(proj);
+        
         const hitHist=svgEl('path',{d:hist.getAttribute('d'),fill:'none',stroke:'transparent','stroke-width':8,'vector-effect':'non-scaling-stroke'});
         const hitProj=svgEl('path',{d:proj.getAttribute('d'),fill:'none',stroke:'transparent','stroke-width':8,'vector-effect':'non-scaling-stroke'});
         plot.appendChild(hitHist);plot.appendChild(hitProj);
-        const enter=()=>{resetHovered();const color=cellWearColor(tr.metrics.status);hist.setAttribute('stroke',color);proj.setAttribute('stroke',color);hist.setAttribute('stroke-width','2.8');proj.setAttribute('stroke-width','2.8');hist.setAttribute('opacity','1');proj.setAttribute('opacity','1');plot.appendChild(hist);plot.appendChild(proj);plot.appendChild(hitHist);plot.appendChild(hitProj);hovered={hist,proj,baseColor};const projectedLife=Math.max(1,Math.round(tr.projectedRulMonths));tooltip.innerHTML='<b>'+getCellId(type,cell)+'</b><br>SOH atual: '+tr.metrics.sohPercent.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%<br>Vida útil estimada: '+formatRul(tr.metrics.rulMonths)+(preservationActive?'<br>Com preservação: '+formatRul(projectedLife):'')+'<br>Condição: '+tr.metrics.statusLabel;tooltip.style.display='block';};
-        const move=e=>{const rect=wrap.getBoundingClientRect();let left=e.clientX-rect.left+12,top=e.clientY-rect.top+12;if(left+190>rect.width)left=e.clientX-rect.left-195;if(top+70>rect.height)top=e.clientY-rect.top-78;tooltip.style.left=left+'px';tooltip.style.top=top+'px';};
-        [hitHist,hitProj].forEach(hit=>{hit.addEventListener('mouseenter',enter);hit.addEventListener('mousemove',move);hit.addEventListener('mouseleave',resetHovered);});
+
+        const lastPt = tr.future[tr.future.length - 1];
+        const isCritical = tr.metrics.status === 'critical';
+        const cellLabel = svgEl('text', {
+            x: x(lastPt.month) + 4,
+            y: y(lastPt.soh) + 3,
+            fill: cellWearColor(tr.metrics.status),
+            'font-size': 9,
+            'font-family': 'Space Mono, monospace',
+            'font-weight': 'normal',
+            opacity: '0', 
+            'pointer-events': 'none'
+        });
+        cellLabel.textContent = getCellId(type, cell);
+        svg.appendChild(cellLabel); 
+        
+        const enter=()=>{
+            resetHovered();
+            const color=cellWearColor(tr.metrics.status);
+            hist.setAttribute('stroke',color);
+            proj.setAttribute('stroke',color);
+            hist.setAttribute('stroke-width','2.8');
+            proj.setAttribute('stroke-width','2.8');
+            hist.setAttribute('opacity','1');
+            proj.setAttribute('opacity','1');
+            
+            cellLabel.setAttribute('opacity', '1');
+            cellLabel.setAttribute('font-size', '12');
+            cellLabel.setAttribute('font-weight', 'bold');
+            
+            plot.appendChild(hist);plot.appendChild(proj);
+            plot.appendChild(hitHist);plot.appendChild(hitProj);
+            svg.appendChild(cellLabel); 
+            
+            hovered={hist,proj,baseColor,label:cellLabel,isCritical};
+            
+            const projectedLife=Math.max(1,Math.round(tr.projectedRulMonths));
+            tooltip.innerHTML='<b>'+getCellId(type,cell)+'</b><br>SOH atual: '+tr.metrics.sohPercent.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%<br>Vida útil estimada: '+formatRul(tr.metrics.rulMonths)+(preservationActive?'<br>Com preservação: '+formatRul(projectedLife):'')+'<br>Condição: '+tr.metrics.statusLabel;
+            tooltip.style.display='block';
+        };
+        const move=e=>{
+            const rect=wrap.getBoundingClientRect();
+            let left=e.clientX-rect.left+12,top=e.clientY-rect.top+12;
+            if(left+190>rect.width)left=e.clientX-rect.left-195;
+            if(top+70>rect.height)top=e.clientY-rect.top-78;
+            tooltip.style.left=left+'px';tooltip.style.top=top+'px';
+        };
+        [hitHist,hitProj].forEach(hit=>{
+            hit.addEventListener('mouseenter',enter);
+            hit.addEventListener('mousemove',move);
+            hit.addEventListener('mouseleave',resetHovered);
+        });
       }
       document.getElementById('preservation-chart-state').textContent=preservationActive?'PRESERVAÇÃO ATIVA':'PROJEÇÃO PADRÃO';
     }
+
     function updatePreservationUI(){
       const button=document.getElementById('activate-preservation');
       const impact=document.getElementById('preservation-impact');
@@ -945,8 +1010,6 @@
 
     document.addEventListener('DOMContentLoaded',()=>{if(window.lucide)lucide.createIcons();vehicleUpdate();});
 
-    // Dataset sintético, determinístico e exclusivo para demonstração de interface.
-    // SOH e RUL abaixo NÃO são estimados da tensão nem produzidos por modelo validado.
     let currentReport=null;
     function buildReport(){
       const type=vehicle.value;
@@ -1011,8 +1074,6 @@
     document.getElementById('export-button').onclick=()=>{renderReport();downloadReport()};
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('certificate-modal').classList.contains('open'))closeModal('certificate-modal')});
     window.addEventListener('beforeprint',()=>{if(!currentReport||currentReport.vehicle!==vehicle.options[vehicle.selectedIndex].textContent)renderReport()});
-
-
   </script>
 </body>
 </html>
