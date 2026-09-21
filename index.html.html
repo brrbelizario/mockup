@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoEnergy — Oficina MoEnergy</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--charcoal:#1C1C1E;--panel:#252528;--panel2:#303034;--line:#4b4b50;--ice:#F5F6F7;--light:#D9DADD;--muted:#A6A7AC;--red:#4DB6E6;--red-dark:#2E718F;--green:#4F8F6A;--amber:#FF9900}
+    *{box-sizing:border-box}html,body{margin:0;background:var(--charcoal);color:var(--ice);font-family:"DM Sans",sans-serif}button,input,select{font:inherit}.mono{font-family:"Space Mono",monospace}.app-shell{width:100%;min-height:calc(100 * min(var(--vh,1vh),1vh));background:linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),var(--charcoal);background-size:32px 32px}.tech-panel{border:1px solid var(--line);background:linear-gradient(135deg,#29292c,#202023)}.focus-ring:focus-visible{outline:2px solid var(--red);outline-offset:3px}.hidden-view{display:none!important}.screen{display:none}.screen.active{display:block;animation:enter .25s ease both}.modal{display:none}.modal.open{display:flex}.step-button[aria-selected="true"]{background:#173746;border-color:var(--red);color:var(--ice);box-shadow:inset 0 -3px var(--red)}.profile-tab[aria-selected="true"]{background:#173746;border-color:var(--red);color:var(--ice)}.internal-view-tab[aria-selected="true"]{background:#173746!important;border-color:var(--red)!important;color:var(--ice)!important}.pack-frame{border:1px solid #5d5d61;background:#202023;padding:18px;position:relative}.pack-frame:before{content:"";position:absolute;left:0;top:0;width:34px;height:3px;background:var(--red)}.module-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.battery-mother{border:1px solid #55555a;background:rgba(32,32,35,.48);padding:10px}.battery-mother-title{margin-bottom:8px;color:#D9DADD;font:700 10px/1.2 "Space Mono",monospace;letter-spacing:.12em}.battery-mother-pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}.battery-module{border:1px solid #606066;background:#29292c;padding:9px; transition: 0.2s;}.battery-module-label{margin-bottom:6px;color:#D9DADD;font:700 10px/1.2 "Space Mono",monospace}.cell-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:0}.battery-cell{aspect-ratio:1;border:1px solid #6a6a70;background:#4a4a50;border-radius:1px}.battery-cell.wear{background:#F2C94C;border-color:#D4A72C}.battery-cell.critical,.battery-module.critical{background:rgba(235,10,30,0.18);border-color:#EB0A1E;cursor:pointer;animation:pulse 1.7s ease-in-out infinite}.battery-cell:focus-visible{outline:2px solid white;outline-offset:2px}.bar-track{height:6px;background:#56565b}.metric-row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid #4b4b50;padding:11px 0}.metric-row:last-child{border:0}.heatmap-info{position:relative;display:inline-flex;align-items:center}.heatmap-info-button{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border:1px solid transparent;color:var(--muted);cursor:pointer}.heatmap-info-button:hover,.heatmap-info-button:focus-visible{color:var(--ice);border-color:var(--line);outline:2px solid var(--red);outline-offset:2px}.heatmap-tooltip{position:absolute;z-index:20;top:calc(100% + 8px);right:0;width:330px;padding:14px 14px;border:1px solid var(--line);background:#171719;color:var(--ice);box-shadow:0 10px 24px rgba(0,0,0,.35);font:11px/1.55 "Space Mono",monospace;opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease;pointer-events:none}.heatmap-info:hover .heatmap-tooltip,.heatmap-info:focus-within .heatmap-tooltip,.heatmap-info.is-open .heatmap-tooltip{opacity:1;visibility:visible;transform:none;pointer-events:auto}.heatmap-tooltip .wear-def{display:grid;gap:10px}.heatmap-tooltip .wear-def-item{padding:10px 11px;border:1px solid #3f4045;background:#202024}.heatmap-tooltip .wear-def-title{display:flex;align-items:center;gap:8px;font-weight:800;font-size:12px;color:#F5F6F7}.heatmap-tooltip .wear-dot{width:10px;height:10px;display:inline-block;border-radius:50%;flex:0 0 auto}.heatmap-tooltip .wear-def-range{display:block;margin-top:5px;color:#D9DADD;font-weight:700}.heatmap-tooltip .wear-def-action{display:block;margin-top:3px;color:#A6A7AC;line-height:1.45}.heatmap-tooltip .wear-def-item.healthy .wear-dot{background:#27AE60}.heatmap-tooltip .wear-def-item.intermediate .wear-dot{background:#F2C94C}.heatmap-tooltip .wear-def-item.critical .wear-dot{background:#EB0A1E}.map-legend-gradient{height:14px;border-radius:999px;border:1px solid #5a5a60}.legend-range{display:flex;justify-content:space-between;gap:12px;color:#D9DADD;font:700 10px/1.2 "Space Mono",monospace;margin-top:8px}.legend-note{margin-top:10px;color:#D9DADD;font-size:13px;line-height:1.45}.legend-swatches{display:grid;gap:10px}.legend-swatch{display:flex;align-items:center;gap:10px}.legend-swatch i{width:14px;height:14px;display:inline-block;border:1px solid rgba(255,255,255,.12)}.map-selector{min-width:180px;border:1px solid #55555a;background:#29292c;color:#F5F6F7;padding:8px 10px;font-size:12px}.soh-chart-wrap{position:relative;width:100%;border:1px solid #55555a;background:#202023;overflow:hidden}.soh-chart-scroll{width:100%;height:438px;overflow-x:auto;overflow-y:hidden;scrollbar-color:#68686d #252528;scrollbar-width:thin}.soh-chart-scroll svg{display:block;height:430px;max-width:none}.soh-y-axis-overlay{position:absolute;z-index:6;left:0;top:0;width:64px;height:430px;pointer-events:none}.soh-x-axis-title{position:absolute;z-index:7;left:64px;right:55px;bottom:11px;text-align:center;color:#D9DADD;font:11px/1 "Space Mono",monospace;pointer-events:none;text-shadow:0 1px 2px #202023,0 0 4px #202023}.soh-chart-tooltip{position:absolute;z-index:8;pointer-events:none;display:none;min-width:165px;padding:8px 10px;border:1px solid #68686d;background:#171719;color:#F5F6F7;box-shadow:0 8px 20px rgba(0,0,0,.35);font:11px/1.45 "Space Mono",monospace}.soh-chart-legend{display:flex;flex-wrap:wrap;gap:14px 22px;color:#D9DADD;font:10px/1.4 "Space Mono",monospace}.soh-chart-legend span{display:inline-flex;align-items:center;gap:7px}.soh-line-sample{width:30px;height:0;border-top:2px solid #B8BBC2}.soh-line-sample.projected{border-top-style:dashed}.preservation-state{border-left:3px solid #4DB6E6;padding-left:10px}.toast{opacity:0;transform:translateY(20px);pointer-events:none;transition:.25s}.toast.show{opacity:1;transform:none}@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(235,10,30,.55)}50%{box-shadow:0 0 0 7px rgba(235,10,30,0)}}@keyframes enter{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}@media(max-width:760px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    
+    /* MODAL DE LAUDO (Visão Tela) */
+    #certificate-modal.open{display:block;overflow:auto;padding:24px;background:rgba(0,0,0,.88)}
+    #certificate-modal .report-sheet{max-width:1050px;width:100%;margin:auto;background:white;color:#20242b;padding:32px;font:14px/1.55 Arial,sans-serif}
+    .report-head{display:flex;justify-content:space-between;gap:16px;border-bottom:3px solid #238ab5;padding-bottom:16px}
+    .report-sheet h2{font-size:25px;margin:4px 0}.report-sheet h3{font-size:17px;margin:24px 0 10px;color:#175575}
+    .report-sheet p{margin:8px 0}.report-note{padding:12px;background:#fff4d8;border-left:4px solid #d48d00}
+    .report-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.report-kpis div{border:1px solid #ccd5dc;padding:12px}.report-kpis strong{display:block;font-size:22px}
+    .report-table-wrap{overflow-x:auto}.report-sheet table{width:100%;border-collapse:collapse;font-size:12px}.report-sheet th,.report-sheet td{padding:7px;border:1px solid #ccd5dc;text-align:left}.report-sheet th{background:#eaf2f7}.report-sheet tr.alert-row{background:#fff0dc}.report-sheet small{color:#52606b}
+    .report-actions{display:flex;gap:12px;margin-top:20px}.report-sheet button{cursor:pointer;border:1px solid #238ab5;background:#eaf5fb;padding:9px 14px;color:#173746}.report-footer{border-top:1px solid #ccd5dc;padding-top:12px;margin-top:24px;font-size:11px}
+    @media(max-width:600px){#certificate-modal.open{padding:8px}#certificate-modal .report-sheet{padding:16px}.report-kpis{grid-template-columns:1fr}.report-head{flex-wrap:wrap}}
+    
+    /* REGRAS DE IMPRESSÃO GLOBAIS (B2B Laudo vs B2C Passaporte) */
+    @page { size: A4; margin: 14mm; }
+    @media print {
+      /* 1. IMPRESSÃO DO PASSAPORTE (B2C) */
+      body.print-b2c { background: #1C1C1E !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body.print-b2c .app-shell > header, 
+      body.print-b2c #dealer-view, 
+      body.print-b2c #dealer-actions-banner, 
+      body.print-b2c footer,
+      body.print-b2c #certificate-modal { display: none !important; }
+      
+      body.print-b2c #owner-view { display: block !important; padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+      body.print-b2c #owner-download-btn { display: none !important; }
+
+      /* 2. IMPRESSÃO DO LAUDO TÉCNICO (B2B) */
+      body:not(.print-b2c) { background: white !important; }
+      body:not(.print-b2c) > *:not(#certificate-modal) { display: none !important; }
+      body:not(.print-b2c) #certificate-modal { display: block !important; position: static !important; overflow: visible !important; padding: 0 !important; }
+      body:not(.print-b2c) #certificate-modal .report-sheet { padding: 0 !important; max-width: none !important; width: 100% !important; box-shadow: none !important; border: none !important; color: #1C1C1E !important; }
+      
+      body:not(.print-b2c) .report-table-wrap { overflow: visible; }
+      body:not(.print-b2c) .report-sheet table { font-size: 9px; }
+      body:not(.print-b2c) .report-sheet th, body:not(.print-b2c) .report-sheet td { padding: 5px; }
+      body:not(.print-b2c) .report-sheet thead { display: table-header-group; }
+      body:not(.print-b2c) .report-sheet tr, body:not(.print-b2c) .report-kpis, body:not(.print-b2c) .report-note { break-inside: avoid; }
+      body:not(.print-b2c) .report-sheet h3 { break-after: avoid; }
+      body:not(.print-b2c) .report-actions, body:not(.print-b2c) .close-modal { display: none !important; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+</head>
+<body style="background: rgb(28, 28, 30);">
+  <div class="app-shell">
+   <header class="border-b border-[#4b4b50] bg-[#1c1c1e]/95">
+    <nav class="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:px-6" aria-label="Navegação principal">
+     <div class="flex items-center gap-3">
+      <div class="flex h-10 w-10 items-center justify-center border border-[#4DB6E6] bg-[#173746] text-[#F5F6F7]"><i data-lucide="battery-charging" class="h-5 w-5"></i></div>
+      <div>
+       <p class="canva-text font-bold" style="color: rgb(77, 182, 230); font-weight: 800; font-style: normal; font-size: 22px;">MoEnergy</p>
+       <p class="canva-tag mono text-[9px] tracking-[.13em]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 11px;">POWERED BY AI TELEMETRY</p>
+      </div>
+     </div>
+     <div class="flex flex-wrap items-center gap-2">
+      <label for="vehicle-select" class="sr-only" style="font-weight: 400; font-style: normal; font-size: 15px;">Selecionar veículo</label> 
+      <select id="vehicle-select" class="focus-ring border border-[#55555a] bg-[#29292c] px-3 py-2 text-xs text-[#F5F6F7]">
+        <option value="bz4x" selected>Toyota bZ4X 2024 - Chassi: JTME...</option>
+        <option value="corolla">Toyota Corolla Cross Hybrid 2024 - Chassi: 9BR...</option>
+        <option value="byd">BYD Dolphin 2024 - Chassi: LC0...</option>
+      </select>
+      <div class="flex border border-[#55555a] bg-[#252528] p-1" role="tablist" aria-label="Perfil de utilização">
+       <button id="dealer-tab" class="profile-tab focus-ring border border-transparent px-3 py-2 text-xs font-bold" type="button" aria-selected="true">B2B · DIAGNÓSTICO</button> 
+       <button id="owner-tab" class="profile-tab focus-ring border border-transparent px-3 py-2 text-xs font-bold text-[#D9DADD]" type="button" aria-selected="false">B2C · PASSAPORTE</button>
+      </div>
+     </div>
+    </nav>
+   </header>
+   <main class="mx-auto max-w-[1440px] px-4 py-5 lg:px-6">
+    <section id="dealer-view">
+     <section class="canva-banner tech-panel mb-5 px-4 py-4" style="background: rgb(37, 37, 40);">
+      <div class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+       <div>
+        <p class="canva-text mono text-[10px] uppercase tracking-[.16em]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">OFICINA MoEnergy / FLUXO OPERACIONAL</p>
+        <h1 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 30px;">Estação de diagnóstico e reparo modular</h1>
+       </div>
+       <div class="mono text-[10px] text-[#A6A7AC]">
+        VEÍCULO / <span id="vehicle-display"></span> · AUDITORIA ATIVA
+       </div>
+      </div>
+      <div class="mt-4 grid gap-2 md:grid-cols-3" role="tablist" aria-label="Etapas da Oficina MoEnergy">
+       <button class="step-button focus-ring border border-[#55555a] px-4 py-3 text-left text-sm font-bold" type="button" data-screen="screen-pack" aria-selected="true"><span class="mono mr-2 text-[#D9DADD]">01</span>Raio-X do Pack</button> <button class="step-button focus-ring border border-[#55555a] px-4 py-3 text-left text-sm font-bold" type="button" data-screen="screen-repair" aria-selected="false"><span class="mono mr-2 text-[#F5F6F7]">02</span>Reparo vs. Troca</button> <button class="step-button focus-ring border border-[#55555a] px-4 py-3 text-left text-sm font-bold" type="button" data-screen="screen-driver" aria-selected="false"><span class="mono mr-2 text-[#D9DADD]">03</span>Condução Prescritiva</button>
+      </div>
+      <div class="mt-3 h-1 bg-[#4b4b50]">
+       <div id="step-progress" class="h-full w-1/3 bg-[#4DB6E6] transition-all"></div>
+      </div>
+      </section>
+      <section id="overview-content" role="tabpanel">
+       <section id="screen-pack" class="screen active">
+        <div class="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_320px]">
+         <section class="canva-panel tech-panel p-4 sm:p-5" style="background: rgb(46, 46, 46);">
+          <div class="flex flex-wrap justify-between gap-4">
+           <div>
+            <p class="canva-text mono text-[10px] tracking-[.16em]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">RAIO-X DO PACK / MAPA DO DESGASTE</p>
+            <h2 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 23px;">Raio-X do Pack</h2>
+            <p class="canva-text mt-1 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">Visão Concessionária / Oficina</p>
+           </div>
+           <p class="canva-text mono text-[10px]" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">Simulação demonstrativa de inspeção</p>
+          </div>
+          <div class="pack-frame mt-5">
+           <div class="mb-3 flex flex-wrap justify-between gap-2 mono text-[10px] text-[#A6A7AC]">
+            <span id="pack-layout-label">PACK TOPO VIEW / 4 MÓDULOS ESTRUTURAIS</span>
+            <span id="pack-cell-label">96 CÉLULAS PRISMÁTICAS</span>
+            <span id="pack-profile-specs">Perfil original - 8 blocos mecânicos</span>
+           </div>
+           <div id="module-grid" class="module-grid" aria-label="Mapa celular do pack"></div>
+          </div>
+         </section>
+         <aside class="canva-panel tech-panel p-5" style="background: rgb(41, 41, 44);">
+          <div class="flex flex-col gap-4">
+           <div class="flex flex-col gap-3">
+            <div class="flex items-center justify-between gap-3">
+             <div class="flex items-center gap-2">
+              <p id="map-panel-title" class="canva-text mono text-[10px] tracking-[.15em]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">MAPA DO DESGASTE</p><span class="heatmap-info"><button id="heatmap-info-button" class="heatmap-info-button focus-ring" type="button" aria-label="Ver critérios técnicos do mapa selecionado" aria-expanded="false" aria-controls="heatmap-tooltip">ⓘ</button><span id="heatmap-tooltip" class="heatmap-tooltip" role="tooltip"></span></span>
+             </div>
+            </div>
+            <div>
+             <label for="map-select" class="mono text-[10px] tracking-[.14em]" style="color: rgb(166, 167, 172);">SELECIONAR MAPA</label>
+             <select id="map-select" class="map-selector focus-ring mt-2 w-full">
+              <option value="wear">Mapa do desgaste</option>
+              <option value="temperature">Mapa de temperatura</option>
+              <option value="voltage">Mapa de tensão</option>
+              <option value="soh">Mapa de SOH</option>
+             </select>
+            </div>
+           </div>
+           <div id="map-legend" class="mt-1"></div>
+          </div>
+          <div class="mt-6 border-t border-[#4b4b50] pt-4">
+           <p class="canva-text mono text-[10px] tracking-[.14em]" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">DIAGNÓSTICO LOCALIZADO</p>
+           <div class="mt-4 grid gap-3">
+            <div class="border border-[#55555a] bg-[#252528] p-3">
+             <p class="mono text-[10px] tracking-[.12em] text-[#A6A7AC]">CÉLULAS SINALIZADAS</p>
+             <p id="diag-signaled" class="mt-2 text-sm font-bold text-[#F5F6F7]">—</p>
+            </div>
+            <div class="border border-[#55555a] bg-[#252528] p-3">
+             <p class="mono text-[10px] tracking-[.12em] text-[#A6A7AC]">RECOMENDAÇÃO</p>
+             <p id="diag-recommendation" class="mt-2 text-sm font-bold text-[#F5F6F7]">—</p>
+            </div>
+           </div>
+          </div><button id="protocol-button" class="canva-button focus-ring mt-6 w-full border border-[#4DB6E6] px-4 py-3 text-sm font-bold" type="button" style="background: rgb(77, 182, 230); color: rgb(28, 28, 30); font-weight: 700; font-style: normal; font-size: 15px;">Gerar Protocolo de Substituição Modular</button>
+         </aside>
+        </div>
+        <div class="mt-5 flex justify-end">
+         <button class="next-step focus-ring border border-[#4DB6E6] bg-[#4DB6E6] px-4 py-3 text-sm font-bold text-[#1C1C1E]" type="button" data-next="screen-repair">Próxima etapa <i data-lucide="arrow-right" class="ml-2 inline h-4 w-4"></i></button>
+        </div>
+       </section>
+       <section id="screen-repair" class="screen">
+        <section class="canva-panel tech-panel p-4 sm:p-6" style="background: rgb(41, 41, 44);">
+         <div class="mb-6">
+          <p class="canva-text mono text-[10px] tracking-[.16em]" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">ETAPA 02 / DECISÃO DA OFICINA</p>
+          <h2 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 23px;">Motor de Decisão de Intervenção</h2>
+         </div>
+         <div class="grid gap-5 lg:grid-cols-2">
+          <article class="canva-card border border-[#68686d] bg-[#303034] p-5" style="background: rgb(48, 48, 52);">
+           <p class="canva-text mono text-[10px]" style="color: rgb(255, 204, 117); font-weight: 700; font-style: normal; font-size: 15px;">Referência de custo</p>
+           <h3 class="canva-text mt-4 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 18px;">Substituição do Pack Inteiro</h3>
+           <p id="industry-cost" class="canva-text mono mt-6 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 30px;">R$ 72.000</p>
+           <p id="industry-waste" class="canva-text mt-5 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">450 kg de resíduo gerado</p>
+           <div class="bar-track mt-2"><div class="h-full w-full bg-[#FF9900]"></div></div>
+           <p class="canva-text mt-4 text-sm" style="color: rgb(255, 176, 184); font-weight: 400; font-style: normal; font-size: 15px;"><span id="industry-downtime">Veículo parado por 40 dias aguardando peça</span></p>
+           <div class="bar-track mt-2"><div class="h-full w-full bg-[#EB0A1E]"></div></div>
+          </article>
+          <article class="canva-card border border-[#68686d] bg-[#29292c] p-5" style="background: rgb(41, 41, 44);">
+           <p class="canva-text mono text-[10px]" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">RECOMENDAÇÃO</p>
+           <h3 id="modular-title" class="canva-text mt-4 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 18px;">Substituição de 1 Módulo + Calibração</h3>
+           <p id="modular-cost" class="canva-text mono mt-6 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 30px;">R$ 4.200</p>
+           <p id="decision-preserved" class="canva-text mt-5 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">Material preservado no veículo</p>
+           <div class="bar-track mt-2"><div class="h-full w-[97%] bg-[#00873E]"></div></div>
+           <p id="decision-downtime" class="canva-text mt-4 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">Tempo estimado de intervenção</p>
+           <div class="bar-track mt-2"><div class="h-full w-[12%] bg-[#00873E]"></div></div>
+          </article>
+         </div>
+         <div class="canva-banner mt-5 border border-[#FF9900] bg-[#3b280d] px-4 py-3 text-center" style="background: rgb(59, 40, 13);">
+          <p id="decision-rationale" class="canva-text font-bold" style="color: rgb(255, 240, 213); font-weight: 700; font-style: normal; font-size: 15px;">O algoritmo compara célula, módulo e pack antes de recomendar a intervenção.</p>
+         </div>
+         <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <button id="select-repair" class="canva-button focus-ring border border-[#4DB6E6] px-5 py-3 text-sm font-bold" type="button" style="background: transparent; color: rgb(77, 182, 230); font-weight: 700; font-style: normal; font-size: 15px;">Selecionar intervenção recomendada</button>
+          <button id="service-order" class="canva-button focus-ring border border-[#4DB6E6] bg-[#4DB6E6] px-5 py-3 text-sm font-bold text-[#1C1C1E]" type="button" style="background: rgb(77, 182, 230); font-weight: 700; font-style: normal; font-size: 15px;">Gerar ordem de serviço</button>
+         </div>
+        </section>
+        <div class="mt-5 flex justify-between"><button class="next-step focus-ring border border-[#68686d] px-4 py-3 text-sm font-bold" type="button" data-next="screen-pack">Voltar</button><button class="next-step focus-ring border border-[#4DB6E6] bg-[#4DB6E6] px-4 py-3 text-sm font-bold text-[#1C1C1E]" type="button" data-next="screen-driver">Próxima etapa</button>
+        </div>
+       </section>
+       <section id="screen-driver" class="screen">
+        <div class="mx-auto max-w-6xl">
+         <section class="canva-panel tech-panel p-5 sm:p-8" style="background: rgb(41, 41, 44);">
+          <p class="canva-text mono text-[10px]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">ETAPA 03 / APP DO MOTORISTA</p>
+          <h2 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 23px;">Modo de Condução Prescritivo</h2>
+          <p class="canva-text mt-1" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">Projeção demonstrativa da evolução do SOH celular</p>
+          <div class="canva-banner mt-6 border border-[#FF9900] bg-[#3b280d] px-4 py-4" style="background: rgb(59, 40, 13);">
+           <p id="driver-alert-copy" class="canva-text font-bold" style="color: rgb(255, 153, 0); font-weight: 700; font-style: normal; font-size: 15px;">Intervenção recomendada</p>
+          </div>
+
+          <article class="canva-card mt-6 border border-[#5a5a60] bg-[#29292c] p-5" style="background: rgb(41, 41, 44);">
+           <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+             <h3 class="canva-text font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 18px;">Evolução e projeção do SOH por célula</h3>
+             <p class="canva-text mt-2 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 14px;">Histórico sintético de todo o período de utilização (aprox. 7–8 anos) e projeção futura até o limite de fim de vida de 65% de SOH. Deslize horizontalmente o gráfico para navegar no tempo e passe o mouse sobre uma curva para identificá-la.</p>
+            </div>
+            <div id="preservation-chart-state" class="preservation-state mono text-[10px] text-[#D9DADD]">PROJEÇÃO PADRÃO</div>
+           </div>
+           <div class="soh-chart-legend mt-4">
+            <span><i class="soh-line-sample"></i>Histórico</span>
+            <span><i class="soh-line-sample projected"></i>Projeção futura</span>
+           </div>
+           <div id="soh-chart-wrap" class="soh-chart-wrap mt-4" aria-label="Gráfico temporal de SOH das células">
+            <div id="soh-chart-scroll" class="soh-chart-scroll">
+             <svg id="soh-history-chart" viewBox="0 0 1000 430" role="img" aria-labelledby="soh-chart-title soh-chart-desc"></svg>
+            </div>
+            <svg id="soh-y-axis-overlay" class="soh-y-axis-overlay" viewBox="0 0 64 430" aria-hidden="true"></svg>
+            <div class="soh-x-axis-title" aria-hidden="true">IDADE DA BATERIA (ANOS)</div>
+            <div id="soh-chart-tooltip" class="soh-chart-tooltip"></div>
+           </div>
+          </article>
+
+          <article class="canva-card mt-6 border border-[#5a5a60] bg-[#29292c] p-5" style="background: rgb(41, 41, 44);">
+           <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div>
+             <h3 class="canva-text font-bold" style="color: rgb(245, 246, 247); font-weight: 800; font-style: normal; font-size: 18px;">Preservação Ativa</h3>
+             <p class="canva-text mono mt-2" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">limitar recarga a 80%</p>
+             <p class="canva-text mt-3 text-sm" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">A simulação reduz a taxa equivalente de envelhecimento somente a partir de hoje. O histórico de 7–8 anos e o SOH atual permanecem inalterados; apenas o instante futuro em que a célula alcança 65% é deslocado para a direita.</p>
+            </div>
+            <button id="activate-preservation" class="canva-button focus-ring shrink-0 border border-[#4DB6E6] bg-[#4DB6E6] px-4 py-3 text-sm font-bold text-[#1C1C1E]" type="button" style="background: rgb(77, 182, 230); font-weight: 700; font-style: normal; font-size: 15px;">Ativar modo Preservação Ativa</button>
+           </div>
+           <p id="preservation-impact" class="canva-text mono mt-5 border-t border-[#55555a] pt-4 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 14px;">Projeção atual: cenário padrão de utilização.</p>
+          </article>
+         </section>
+        </div>
+       </section>
+       <section class="mt-8 border-t border-[#4b4b50] pt-6">
+        <div class="grid gap-5 xl:grid-cols-[1.5fr_.7fr]">
+         <section class="canva-panel tech-panel p-5" style="background: rgb(41, 41, 44);">
+          <p class="canva-text mono text-[10px]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">TELEMETRY READOUTS</p>
+          <h2 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 23px;">Leituras técnicas do pack</h2>
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+           <div>
+            <div class="metric-row"><span class="canva-text" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">SOH / STATE OF HEALTH</span><strong id="telemetry-soh" class="canva-text mono" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">84.5%</strong></div>
+            <div class="metric-row"><span class="canva-text" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">RUL / VIDA ÚTIL</span><strong id="telemetry-rul" class="canva-text mono" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">4,8 anos</strong></div>
+           </div>
+           <div>
+            <div class="metric-row"><span class="canva-text" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">RECARGAS DC / CICLOS</span><strong id="telemetry-cycles" class="canva-text mono" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 15px;">142</strong></div>
+            <div class="metric-row"><span class="canva-text" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">REPARO INDICADO</span><strong id="telemetry-stress" class="canva-text mono" style="color: rgb(255, 153, 0); font-weight: 700; font-style: normal; font-size: 15px;">Alerta Localizado</strong></div>
+           </div>
+          </div>
+         </section>
+         <section class="canva-panel tech-panel p-5" style="background: rgb(41, 41, 44);">
+          <p class="canva-text mono text-[10px]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">DECISION SUPPORT</p>
+          <h2 class="canva-text mt-1 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 23px;">Copiloto IA Técnico</h2>
+          <div class="mt-4 grid gap-2">
+            <button class="copilot focus-ring border border-[#55555a] bg-[#29292c] p-3 text-left text-sm font-semibold" type="button" data-answer="A análise preditiva isolou a anomalia num único módulo do pack.">Onde está a degradação?</button>
+            <button class="copilot focus-ring border border-[#55555a] bg-[#29292c] p-3 text-left text-sm font-semibold" type="button" data-answer="A recomendação demonstrativa é avaliar o reparo modular antes de qualquer troca integral.">Qual é a recomendação da oficina?</button>
+          </div>
+          <div id="copilot-result" class="mt-3 border-l-2 border-[#4DB6E6] bg-[#29292c] p-3 text-sm text-[#D9DADD]">
+           Selecione uma pergunta rápida para consultar a análise demonstrativa.
+          </div>
+         </section>
+        </div>
+       </section>
+      </section>
+    </main>
+
+    <section id="dealer-actions-banner" class="canva-banner mx-auto max-w-[1440px] flex flex-col justify-between gap-3 border border-[#55555a] bg-[#252528] p-4 sm:flex-row sm:items-center" style="background: rgb(37, 37, 40);">
+     <p class="canva-text mono text-[10px]" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">AUDITORIA PREDITIVA ATIVA · DADOS EXCLUSIVAMENTE DEMONSTRATIVOS</p>
+     <div class="flex flex-wrap gap-2"><button id="certificate-button" class="canva-button focus-ring border border-[#4DB6E6] bg-[#4DB6E6] px-4 py-2 text-sm font-bold text-[#1C1C1E]" type="button" style="background: rgb(77, 182, 230); font-weight: 700; font-style: normal; font-size: 15px;">Gerar laudo</button>
+     </div>
+    </section>
+
+    <!-- NOVA VISÃO B2C -->
+    <section id="owner-view" class="hidden-view mx-auto max-w-4xl px-4 py-8">
+      <div class="canva-card relative overflow-hidden rounded-lg border border-[#55555a] bg-gradient-to-br from-[#29292c] to-[#202023] shadow-2xl">
+        <div class="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[#4DB6E6] to-[#4F8F6A]"></div>
+
+        <div class="p-6 sm:p-10">
+          <header class="flex flex-col justify-between gap-4 border-b border-[#4b4b50] pb-6 sm:flex-row sm:items-end">
+            <div>
+              <div class="flex items-center gap-3">
+                <p class="canva-text mono text-[10px] tracking-widest text-[#4DB6E6]">PASSAPORTE TÉCNICO MoEnergy</p>
+                <span class="inline-flex items-center gap-1 rounded-full border border-[#4F8F6A] bg-[#173622] px-2 py-0.5 text-[9px] font-bold text-[#4F8F6A] uppercase tracking-wider"><i data-lucide="check-circle-2" class="h-3 w-3"></i> Autenticado</span>
+              </div>
+              <h1 class="canva-text mt-2 font-bold text-[#F5F6F7]" style="font-size: 32px; line-height: 1.1;">Passaporte Digital da Bateria</h1>
+            </div>
+            <div class="text-left sm:text-right">
+              <p class="mono text-[10px] text-[#A6A7AC]">EMISSÃO</p>
+              <p id="owner-date" class="mono font-bold text-[#D9DADD]">19/09/2026</p>
+            </div>
+          </header>
+
+          <div class="mt-8 grid gap-8 md:grid-cols-[1fr_1.5fr]">
+            <div class="flex flex-col gap-5">
+              <div>
+                <p class="mono text-[10px] text-[#A6A7AC]">VEÍCULO</p>
+                <p id="owner-vehicle-name" class="mt-1 text-lg font-bold text-[#F5F6F7]">—</p>
+              </div>
+              <div>
+                <p class="mono text-[10px] text-[#A6A7AC]">CHASSI (VIN)</p>
+                <p id="owner-vin" class="mono mt-1 text-sm text-[#D9DADD]">—</p>
+              </div>
+              <div>
+                <p class="mono text-[10px] text-[#A6A7AC]">ARQUITETURA DA BATERIA</p>
+                <p id="owner-battery-arch" class="mt-1 text-sm text-[#D9DADD]">—</p>
+              </div>
+              <div class="mt-2 rounded border border-[#5a5a60] bg-[#29292c] p-4">
+                <div class="flex items-start gap-3">
+                  <i id="owner-status-icon" data-lucide="shield-check" class="h-5 w-5 text-[#4DB6E6]"></i>
+                  <div>
+                    <p id="owner-status-title" class="text-sm font-bold text-[#F5F6F7]">Calculando...</p>
+                    <p id="owner-status-desc" class="mt-1 text-xs text-[#A6A7AC]">—</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="rounded border border-[#5a5a60] bg-[#29292c] p-5 text-center flex flex-col items-center justify-center">
+                <p class="mono text-[10px] text-[#A6A7AC] mb-4">SAÚDE (SOH)</p>
+                <div class="relative flex h-28 w-28 items-center justify-center">
+                  <svg class="h-full w-full -rotate-90 transform" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="#303034" stroke-width="8" />
+                    <circle id="owner-soh-circle" cx="50" cy="50" r="40" fill="transparent" stroke="#4F8F6A" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="25.12" stroke-linecap="round" class="transition-all duration-1000 ease-out" />
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <span id="owner-soh" class="mono text-2xl font-bold text-[#F5F6F7]">0%</span>
+                  </div>
+                </div>
+                <p class="mt-4 text-xs text-[#D9DADD]">da capacidade original</p>
+              </div>
+
+              <div class="rounded border border-[#5a5a60] bg-[#29292c] p-5 text-center flex flex-col items-center justify-center">
+                <p class="mono text-[10px] text-[#A6A7AC] mb-4">VIDA ÚTIL ESTIMADA (RUL)</p>
+                <div class="flex h-28 w-28 items-center justify-center rounded-full border-4 border-[#303034] bg-[#202023] relative overflow-hidden">
+                  <i data-lucide="calendar-clock" class="absolute h-10 w-10 text-[#A6A7AC] opacity-20"></i>
+                  <span id="owner-rul" class="mono z-10 text-2xl font-bold text-[#F5F6F7]">—</span>
+                </div>
+                <p class="mt-4 text-xs text-[#D9DADD]">anos projetados antes de limite crítico</p>
+              </div>
+            </div>
+          </div>
+
+          <footer class="mt-8 flex flex-col justify-between gap-4 border-t border-[#4b4b50] pt-6 sm:flex-row sm:items-center">
+            <p class="mono text-[10px] text-[#A6A7AC] max-w-md">Certificado digital exclusivo. As medições de integridade são baseadas na última auditoria ativa no ecossistema MoEnergy.</p>
+            <button id="owner-download-btn" class="canva-button focus-ring inline-flex items-center justify-center gap-2 border border-[#4DB6E6] bg-[#4DB6E6] px-5 py-3 text-sm font-bold text-[#1C1C1E] transition-colors hover:bg-[#3ba4d4]" type="button">
+              <i data-lucide="printer" class="h-4 w-4"></i> Imprimir Passaporte PDF
+            </button>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mx-auto max-w-[1440px] px-5 py-7">
+     <p class="canva-text mono text-center text-[10px]" style="color: rgb(166, 167, 172); font-weight: 400; font-style: normal; font-size: 15px;">MoEnergy · Indicadores e certificados apresentados exclusivamente para simulação demonstrativa.</p>
+    </footer>
+  </div>
+  
+  <div id="protocol-modal" class="modal fixed inset-0 z-50 items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true">
+   <div class="canva-panel w-full max-w-lg border border-[#4DB6E6] p-6 shadow-2xl" style="background: rgb(41, 41, 44);">
+    <div class="flex justify-between">
+     <div>
+      <p class="canva-text mono text-[10px]" style="color: rgb(217, 218, 221); font-weight: 700; font-style: normal; font-size: 15px;">PROTOCOLO DEMONSTRATIVO</p>
+      <h2 class="canva-text mt-2 font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 23px;">Substituição Modular</h2>
+     </div><button class="close-modal focus-ring p-2" type="button" data-close="protocol-modal" aria-label="Fechar"><i data-lucide="x"></i></button>
+    </div>
+    <p id="protocol-copy" class="canva-text mt-5" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">Resumo preparado para o defeito. Confirme o procedimento técnico.</p>
+    <div id="protocol-detail" class="mt-4 border-l-2 border-[#FF9900] bg-[#3b280d] p-3 mono text-xs text-[#F5F6F7]">Detalhes do Módulo</div>
+   </div>
+  </div>
+  <div id="module-modal" class="modal fixed inset-0 z-50 items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true">
+   <div class="w-full max-w-lg border border-[#FF9900] bg-[#29292c] p-6 shadow-2xl">
+    <div class="flex justify-between">
+     <div>
+      <p class="mono text-[10px] text-[#FF9900]">DETALHE DE INSPEÇÃO</p>
+      <h2 id="modal-dynamic-title" class="mt-2 text-xl font-bold">Módulo 03 - Célula 07</h2>
+     </div><button class="close-modal focus-ring p-2" type="button" data-close="module-modal" aria-label="Fechar"><i data-lucide="x"></i></button>
+    </div>
+    <p id="modal-dynamic-desc" class="mono mt-5 text-sm text-[#F5F6F7]">Tensão 3.12V vs. Média 3.65V | Alta Resistência Interna</p>
+   </div>
+  </div>
+  <div id="service-modal" class="modal fixed inset-0 z-50 items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true">
+   <div class="w-full max-w-lg border border-[#4DB6E6] bg-[#29292c] p-6 shadow-2xl">
+    <div class="flex justify-between">
+     <h2 class="canva-text font-bold" style="color: rgb(245, 246, 247); font-weight: 700; font-style: normal; font-size: 23px;">Ordem de serviço demonstrativa</h2><button class="close-modal focus-ring p-2" type="button" data-close="service-modal" aria-label="Fechar"><i data-lucide="x"></i></button>
+    </div>
+    <p class="canva-text mt-4" style="color: rgb(217, 218, 221); font-weight: 400; font-style: normal; font-size: 15px;">A ordem de serviço demonstrativa para reparo modular está pronta para confirmação operacional.</p>
+   </div>
+  </div>
+  <div id="certificate-modal" class="modal fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="report-title">
+   <div class="report-sheet">
+    <div class="report-head"><div><small>MoEnergy / RELATÓRIO DEMONSTRATIVO</small><h2 id="report-title">Laudo de saúde e vida restante da bateria</h2></div><button class="close-modal" type="button" data-close="certificate-modal" aria-label="Fechar laudo">Fechar</button></div>
+    <div id="report-content"></div>
+    <div class="report-actions"><button id="print-certificate" type="button">Imprimir / Salvar como PDF</button></div>
+   </div>
+  </div>
+  <div id="toast" class="toast fixed bottom-5 right-5 z-[60] max-w-sm border border-[#00873E] bg-[#173622] px-4 py-3 text-sm font-semibold text-white shadow-2xl" role="status"></div>
+  
+  <script>
+    const screens=[...document.querySelectorAll('.screen')],steps=[...document.querySelectorAll('.step-button')];let lastTrigger=null;
+    function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),3200)}
+    function setScreen(id){screens.forEach(s=>s.classList.toggle('active',s.id===id));steps.forEach(s=>s.setAttribute('aria-selected',String(s.dataset.screen===id)));document.getElementById('step-progress').style.width=((['screen-pack','screen-repair','screen-driver'].indexOf(id)+1)*33.333)+'%';if(id==='screen-driver')requestAnimationFrame(()=>renderSohHistoryChart())}
+    steps.forEach(b=>b.addEventListener('click',()=>setScreen(b.dataset.screen)));document.querySelectorAll('.next-step').forEach(b=>b.addEventListener('click',()=>setScreen(b.dataset.next)));
+    function openModal(id,trigger){lastTrigger=trigger;document.getElementById(id).classList.add('open');document.getElementById(id).querySelector('button').focus()}function closeModal(id){document.getElementById(id).classList.remove('open');lastTrigger?.focus()}
+    document.querySelectorAll('.close-modal').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+
+    const grid=document.getElementById('module-grid');
+    const mapSelect=document.getElementById('map-select');
+    const mapLegend=document.getElementById('map-legend');
+    const mapPanelTitle=document.getElementById('map-panel-title');
+    const heatmapTooltip=document.getElementById('heatmap-tooltip');
+    const VEHICLE_MODULE_SIZE={bz4x:24,corolla:6,byd:24};
+    let currentMap='wear';
+    const SOH_EOL_SCENARIO=65;
+    const NOMINAL_CELL_LIFE_MONTHS=120;
+    const SERVICE_MONTHS={bz4x:90,corolla:96,byd:84};
+    const PRESERVATION_AGING_FACTOR=0.78;
+    const specs = {
+        bz4x: {
+            layoutTitle: 'PACK Li-ion · 355,2 V · 4 módulos × 24 células',
+            packLayoutLabel: 'BATERIA EV / 4 MÓDULOS',
+            packCellLabel: '96 CÉLULAS Li-ion · 3,7 V',
+            packProfileSpecs: '4 módulos × 24 células · 96 células · 355,2 V · desgaste concentrado no módulo 03 com pontos intermediários isolados em outros módulos',
+            intermediateCells: [12,51,53,58,62,90],
+            criticalCells: [55],
+            diagCell: 55,
+            diagName: 'Módulo 03 - Célula 07',
+            diagDesc: 'Tensão 3.12V vs. Média 3.70V | 1 célula crítica + 4 intermediárias no módulo 03; 2 intermediárias isoladas em outros módulos (cenário)',
+            priceFull: 'R$ 72.000',
+            wasteFull: '450 kg de resíduo gerado',
+            priceModular: 'R$ 4.200',
+            modularTitle: 'Intervenção em 1 Módulo + Calibração',
+            alertText: 'Desgaste localizado no Módulo 03; há células intermediárias isoladas em outros módulos',
+            protocolCopy: 'Resumo preparado para o bZ4X com degradação concentrada em poucas células do Módulo 03. O motor deve comparar troca celular com troca do módulo antes da execução.',
+            protocolDetail: 'Módulo 03 - Célula 07<br>Tensão 3.12V vs. Média 3.70V | Célula crítica (cenário)',
+            nominalV: 3.70,
+            tempBase: 29.5,
+            packSohDemo: 74.0,
+            packSohText: 'calculado',
+            packRulYearsDemo: 2.5,
+            packRulText: 'calculado',
+            cycles: '142',
+            stressText: '1 crítica + 6 intermediárias',
+            decisionModel: {
+              cell:{packOpen:1500,moduleOpen:600,partPerCell:380,laborPerCell:260,calibration:600,riskProb:0.08,riskImpact:12000,recurrenceProb:0.08,recurrenceImpact:6000},
+              module:{packOpen:1200,partPerModule:6200,laborPerModule:600,calibration:600,riskProb:0.07,riskImpact:14000,recurrenceProb:0.04,recurrenceImpact:8000,salvagePerGoodCell:120,recoveryFactor:0.65},
+              pack:{partCost:72000,labor:1500,riskProb:0.015,riskImpact:18000,salvagePerHealthyCell:120,recoveryFactor:0.75},
+              intermediateModuleThreshold:0.30, monitoringCostPerCell:350,
+              downtime:{cell:'3 a 4 dias',module:'48 h',pack:'15 dias'}
+            },
+            profile: '4 módulos × 24 células = 96 células Li-ion · 355,2 V — sem blocos A/B'
+        },
+        corolla: {
+            layoutTitle: 'CONJUNTO HV NiMH · 201,6 V · 28 módulos × 6 células',
+            packLayoutLabel: 'BATERIA NiMH HV / 28 MÓDULOS',
+            packCellLabel: '168 CÉLULAS NiMH · 6 POR MÓDULO',
+            packProfileSpecs: '28 módulos × 6 células · 168 células · 201,6 V · 3 módulos degradados + células intermediárias isoladas em outros módulos',
+            intermediateCells: [22,44,45,46,74,76,77,94,110,112,113,142,164],
+            criticalCells: [43,75,111],
+            diagCell: 43,
+            diagName: 'Módulo 08 - Célula 01',
+            diagDesc: 'Tensão 0.97V vs. Média 1.20V | degradação agrupada nos módulos 08, 13 e 19; pontos isolados em outros módulos não justificam substituição modular (cenário)',
+            priceFull: 'R$ 18.500',
+            wasteFull: '42 kg de resíduo gerado',
+            priceModular: 'R$ 1.250',
+            modularTitle: 'Substituição dos módulos degradados + calibração',
+            alertText: 'Módulos 08, 13 e 19 degradados; há células intermediárias isoladas em outros módulos',
+            protocolCopy: 'Resumo preparado para o Corolla com células degradadas agrupadas em três módulos pequenos. O motor deve comparar a abertura desses módulos com sua substituição integral.',
+            protocolDetail: 'Módulos 08, 13 e 19<br>Degradação agrupada com células críticas e intermediárias (cenário)',
+            nominalV: 1.20,
+            tempBase: 27.5,
+            packSohDemo: 72.5,
+            packSohText: 'calculado',
+            packRulYearsDemo: 2.0,
+            packRulText: 'calculado',
+            cycles: '318',
+            stressText: '3 críticas + 13 intermediárias',
+            decisionModel: {
+              cell:{packOpen:600,moduleOpen:80,partPerCell:140,laborPerCell:120,calibration:300,riskProb:0.04,riskImpact:2500,recurrenceProb:0.05,recurrenceImpact:1800},
+              module:{packOpen:600,partPerModule:650,laborPerModule:100,calibration:300,riskProb:0.03,riskImpact:3000,recurrenceProb:0.03,recurrenceImpact:1800,salvagePerGoodCell:35,recoveryFactor:0.70},
+              pack:{partCost:18500,labor:900,riskProb:0.01,riskImpact:4000,salvagePerHealthyCell:35,recoveryFactor:0.50},
+              intermediateModuleThreshold:0.30, monitoringCostPerCell:120,
+              downtime:{cell:'24 a 36 h',module:'48 h',pack:'7 dias'}
+            },
+            profile: '28 módulos NiMH × 6 células = 168 células · 201,6 V'
+        },
+        byd: {
+            layoutTitle: 'PACK LFP · 307,2 V · 4 módulos × 24 células',
+            packLayoutLabel: 'BATERIA BYD / 4 MÓDULOS',
+            packCellLabel: '96 CÉLULAS LFP · 3,2 V',
+            packProfileSpecs: '4 módulos × 24 células · 96 células · 307,2 V · cenário mais desgastado',
+            intermediateCells: [5,11,13,17,22,26,31,35,39,45,52,58,63,69,72,76,81,85,90,94],
+            criticalCells: [14,43,67,88],
+            diagCell: 43,
+            diagName: 'Módulo 02 - Célula 19',
+            diagDesc: 'Tensão 2.98V vs. Média 3.20V | 4 células críticas e múltiplas células em desgaste intermediário (cenário)',
+            priceFull: 'R$ 55.000',
+            wasteFull: '410 kg de resíduo gerado',
+            priceModular: 'R$ 6.800',
+            modularTitle: 'Intervenção em múltiplas células / módulos + recalibração',
+            alertText: 'Pack com desgaste elevado: várias células intermediárias e 4 críticas',
+            protocolCopy: 'Resumo preparado para a bateria BYD, o cenário mais degradado do protótipo. Há múltiplas células intermediárias e 4 células críticas distribuídas pelo pack.',
+            protocolDetail: 'Módulo 02 - Célula 19<br>Tensão 2.98V vs. Média 3.20V | Célula crítica (cenário)',
+            nominalV: 3.20,
+            tempBase: 33.0,
+            packSohDemo: 70.5,
+            packSohText: 'calculado',
+            packRulYearsDemo: 1.2,
+            packRulText: 'calculado',
+            cycles: '486',
+            stressText: '4 críticas + 20 intermediárias',
+            decisionModel: {
+              cell:{packOpen:3000,moduleOpen:4200,partPerCell:550,laborPerCell:400,calibration:1000,riskProb:0.30,riskImpact:30000,recurrenceProb:0.20,recurrenceImpact:15000},
+              module:{packOpen:2500,partPerModule:11000,laborPerModule:900,calibration:800,riskProb:0.16,riskImpact:25000,recurrenceProb:0.10,recurrenceImpact:12000,salvagePerGoodCell:140,recoveryFactor:0.45},
+              pack:{partCost:55000,labor:1800,riskProb:0.03,riskImpact:18000,salvagePerHealthyCell:300,recoveryFactor:0.75},
+              intermediateModuleThreshold:0.30, monitoringCostPerCell:500,
+              downtime:{cell:'5 a 7 dias',module:'4 a 5 dias',pack:'72 h'}
+            },
+            profile: '4 módulos × 24 células = 96 células LFP · 307,2 V — cenário demonstrativo com maior degradação'
+        }
+    };
+
+    const mapModes={
+      wear:{title:'MAPA DO DESGASTE',tooltip:'<div class="wear-def"><div class="wear-def-item healthy"><div class="wear-def-title"><span class="wear-dot"></span>Saudável</div><span class="wear-def-range">Vida útil estimada: acima de 2 anos</span><span class="wear-def-action">Sem substituição recomendada.</span></div><div class="wear-def-item intermediate"><div class="wear-def-title"><span class="wear-dot"></span>Intermediário</div><span class="wear-def-range">Vida útil estimada: entre 1 e 2 anos</span><span class="wear-def-action">Substituição recomendada quando o conjunto do módulo atender aos critérios técnicos de intervenção.</span></div><div class="wear-def-item critical"><div class="wear-def-title"><span class="wear-dot"></span>Crítico</div><span class="wear-def-range">Vida útil estimada: abaixo de 1 ano</span><span class="wear-def-action">Substituição necessária. Uma célula crítica já justifica a abertura do módulo.</span></div><div class="wear-def-item"><span class="wear-def-range">Referência do modelo: fim de vida em 65% de SOH; célula saudável típica leva aproximadamente 10 anos para atingir esse limite.</span></div></div>'},
+      temperature:{title:'MAPA DE TEMPERATURA',tooltip:'Temperatura instantânea estimada por célula. Cores frias indicam menores temperaturas; cores quentes indicam temperaturas mais altas.'},
+      voltage:{title:'MAPA DE TENSÃO',tooltip:'Tensão demonstrativa por célula. Tons próximos do vermelho indicam tensão mais baixa; tons próximos do verde indicam tensão mais alta dentro do cenário.'},
+      soh:{title:'MAPA DE SOH',tooltip:'SOH estimado por célula. Tons mais quentes indicam menor saúde; tons mais frios/esverdeados indicam maior saúde dentro do cenário.'}
+    };
+
+    function pad2(value){return String(value).padStart(2,'0')}
+    function getModuleAndCell(type, globalCell){
+      const moduleSize=VEHICLE_MODULE_SIZE[type];
+      return {module:Math.floor((globalCell-1)/moduleSize)+1,cell:(globalCell-1)%moduleSize+1};
+    }
+    function getCellId(type, globalCell){
+      const pos=getModuleAndCell(type,globalCell);
+      return 'M'+pad2(pos.module)+'-C'+pad2(pos.cell);
+    }
+    function getCellStatus(type, globalCell){
+      const data=specs[type];
+      if(data.criticalCells.includes(globalCell)) return 'critical';
+      if(data.intermediateCells.includes(globalCell)) return 'intermediate';
+      return 'healthy';
+    }
+    function getModuleDegradationDensity(type, globalCell){
+      const data=specs[type];
+      const pos=getModuleAndCell(type,globalCell);
+      const moduleSize=VEHICLE_MODULE_SIZE[type];
+      const start=(pos.module-1)*moduleSize+1;
+      const end=start+moduleSize-1;
+      let flagged=0;
+      for(let c=start;c<=end;c++) if(data.criticalCells.includes(c)||data.intermediateCells.includes(c)) flagged++;
+      return flagged/moduleSize;
+    }
+    function hash01(seed){
+      const x=Math.sin(seed*12.9898+78.233)*43758.5453123;
+      return x-Math.floor(x);
+    }
+    function pseudoNormal(seed){
+      let sum=0;
+      for(let k=0;k<6;k++) sum+=hash01(seed+k*37.17);
+      return (sum-3)/0.70710678;
+    }
+    function clippedNormal(seed,mean,sd,min,max){
+      return Math.min(max,Math.max(min,mean+pseudoNormal(seed)*sd));
+    }
+    function sohAtEquivalentAge(totalLifeMonths, ageMonths){
+      const u=Math.max(0,Math.min(1,ageMonths/Math.max(1,totalLifeMonths)));
+      // Perfil quase linear inspirado no gráfico de referência fornecido:
+      // queda gradual ao longo da idade, com leve aceleração perto do EOL.
+      const degradationFraction=0.92*u+0.08*u*u;
+      return 100-(100-SOH_EOL_SCENARIO)*degradationFraction;
+    }
+    function getCellLifeModel(type,globalCell){
+      const status=getCellStatus(type,globalCell);
+      const pos=getModuleAndCell(type,globalCell);
+      const moduleDensity=getModuleDegradationDensity(type,globalCell);
+      const serviceMonths=SERVICE_MONTHS[type];
+      const seedBase=(type==='bz4x'?1000:type==='corolla'?2000:3000)+globalCell*19+pos.module*7;
+      let totalLifeMonths;
+      if(status==='critical'){
+        // Próxima ao EOL: menos de 1 ano restante.
+        const rul=Math.round(clippedNormal(seedBase+101,6,2.1,2,11));
+        totalLifeMonths=serviceMonths+rul;
+      }else if(status==='intermediate'){
+        // Faixa intermediária: entre 1 e 2 anos restantes.
+        const rul=Math.round(clippedNormal(seedBase+101,18,3.1,12,24));
+        totalLifeMonths=serviceMonths+rul;
+      }else{
+        // Vida total típica centrada em cerca de 10 anos.
+        const densityPenalty=moduleDensity*(type==='corolla'?4:6);
+        const chemistryBias=type==='byd'?4:type==='corolla'?0:2;
+        totalLifeMonths=Math.round(clippedNormal(seedBase+101,NOMINAL_CELL_LIFE_MONTHS+chemistryBias-densityPenalty,8,serviceMonths+25,150));
+        totalLifeMonths=Math.max(totalLifeMonths,serviceMonths+25);
+      }
+      return {status,serviceMonths,totalLifeMonths,rulMonths:Math.max(1,totalLifeMonths-serviceMonths),moduleDensity,seedBase};
+    }
+    function getCellMetrics(type, globalCell){
+      const data=specs[type];
+      const life=getCellLifeModel(type,globalCell);
+      const status=life.status;
+      const pos=getModuleAndCell(type,globalCell);
+      const seedBase=life.seedBase;
+      const moduleDensity=life.moduleDensity;
+
+      const sohNoise=pseudoNormal(seedBase+151)*(status==='healthy'?0.22:0.16);
+      let sohPercent=sohAtEquivalentAge(life.totalLifeMonths,life.serviceMonths)+sohNoise;
+      sohPercent=Number(Math.min(99.5,Math.max(SOH_EOL_SCENARIO+0.4,sohPercent)).toFixed(1));
+      const rulMonths=life.rulMonths;
+
+      const statusVoltageBias=status==='critical'?(type==='corolla'?0.050:type==='byd'?0.090:0.100):status==='intermediate'?(type==='corolla'?0.017:type==='byd'?0.032:0.040):0;
+      const sohVoltageBias=Math.max(0,90-sohPercent)*(type==='corolla'?0.0007:0.0012);
+      const voltageNoise=pseudoNormal(seedBase+211)*(type==='corolla'?0.005:0.010);
+      const voltageV=Number((data.nominalV-statusVoltageBias-sohVoltageBias-moduleDensity*(type==='corolla'?0.006:0.010)+voltageNoise).toFixed(3));
+
+      const thermalNoise=pseudoNormal(seedBase+307)*0.65;
+      const resistanceHeat=status==='critical'?2.2:status==='intermediate'?0.9:0;
+      const agingHeat=Math.max(0,82-sohPercent)*0.09;
+      const densityHeat=moduleDensity*(type==='corolla'?1.0:1.4);
+      const temperatureC=Number((data.tempBase+agingHeat+resistanceHeat+densityHeat+thermalNoise).toFixed(1));
+
+      const resistance=status==='critical'?'Elevada':status==='intermediate'?'Moderada':'Baixa';
+      const statusLabel=status==='critical'?'Crítico':status==='intermediate'?'Desgaste intermediário':'Saudável';
+      const recommendation=status==='critical'?'Substituição necessária':status==='intermediate'?'Substituição recomendada quando o conjunto do módulo atender aos critérios técnicos de intervenção; isoladamente, a célula permanece apenas sinalizada':'Sem substituição recomendada';
+      return {status,voltageV,sohPercent,rulMonths,resistance,statusLabel,recommendation,temperatureC,totalLifeMonths:life.totalLifeMonths,serviceMonths:life.serviceMonths};
+    }
+    function formatRul(months){
+      if(months<12) return months+' meses';
+      if(months===12) return '1 ano';
+      const years=months/12;
+      return years.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' anos';
+    }
+    function getCellDescription(type, globalCell){
+      const data=specs[type];
+      const pos=getModuleAndCell(type,globalCell);
+      const moduleName='Módulo '+pad2(pos.module)+' - Célula '+pad2(pos.cell);
+      const m=getCellMetrics(type,globalCell);
+      return {
+        title:moduleName,
+        desc:'Condição: '+m.statusLabel+' | Tensão: '+m.voltageV.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:3})+' V | Temperatura: '+m.temperatureC.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' °C | SOH estimado: '+m.sohPercent.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'% | Vida útil estimada: '+formatRul(m.rulMonths)+' | '+m.recommendation
+      };
+    }
+    function getPackHealthSummary(type){
+      const count=type==='corolla'?168:96;
+      const metrics=Array.from({length:count},(_,i)=>getCellMetrics(type,i+1));
+      const avgSoh=metrics.reduce((s,m)=>s+m.sohPercent,0)/metrics.length;
+      const ruls=metrics.map(m=>m.rulMonths).sort((a,b)=>a-b);
+      const p10Index=Math.max(0,Math.min(ruls.length-1,Math.floor((ruls.length-1)*0.10)));
+      return {avgSoh:Number(avgSoh.toFixed(1)),packRulMonths:ruls[p10Index]};
+    }
+    function currencyBRL(value){return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});}
+    function evaluateInterventions(type){
+      const data=specs[type];
+      const totalCells=type==='corolla'?168:96;
+      const moduleSize=VEHICLE_MODULE_SIZE[type];
+      const totalModules=Math.ceil(totalCells/moduleSize);
+      const flagged=[...new Set([...data.criticalCells,...data.intermediateCells])].sort((a,b)=>a-b);
+      const cfg=data.decisionModel;
+
+      const moduleStats={};
+      for(let m=1;m<=totalModules;m++) moduleStats[m]={flagged:0,critical:0,intermediate:0,cells:[]};
+      flagged.forEach(c=>{
+        const m=getModuleAndCell(type,c).module;
+        moduleStats[m].flagged++;
+        moduleStats[m].cells.push(c);
+        if(data.criticalCells.includes(c)) moduleStats[m].critical++;
+        else moduleStats[m].intermediate++;
+      });
+      const affectedModules=Object.keys(moduleStats).map(Number).filter(m=>moduleStats[m].flagged>0);
+      const interventionModules=affectedModules.filter(m=>{
+        const intermediateRatio=moduleStats[m].intermediate/moduleSize;
+        return moduleStats[m].critical>0 || intermediateRatio>=cfg.intermediateModuleThreshold;
+      });
+      const monitoredModules=affectedModules.filter(m=>!interventionModules.includes(m));
+      const interventionCells=flagged.filter(c=>interventionModules.includes(getModuleAndCell(type,c).module));
+      const monitoredCells=flagged.filter(c=>!interventionCells.includes(c));
+      const goodCellsInInterventionModules=interventionModules.reduce((sum,m)=>sum+(moduleSize-moduleStats[m].flagged),0);
+      const healthyCells=totalCells-flagged.length;
+      const monitoringPenalty=monitoredCells.length*cfg.monitoringCostPerCell;
+
+      const openings=Math.max(1,interventionModules.length);
+      const scaleProb=(p,n)=>1-Math.pow(1-p,n);
+
+      const cellDirect=cfg.cell.packOpen + interventionModules.length*cfg.cell.moduleOpen + interventionCells.length*(cfg.cell.partPerCell+cfg.cell.laborPerCell) + cfg.cell.calibration;
+      const cellRisk=scaleProb(cfg.cell.riskProb,openings)*cfg.cell.riskImpact + scaleProb(cfg.cell.recurrenceProb,openings)*cfg.cell.recurrenceImpact;
+      const cellNet=cellDirect+cellRisk+monitoringPenalty;
+
+      const moduleDirect=cfg.module.packOpen + interventionModules.length*(cfg.module.partPerModule+cfg.module.laborPerModule) + cfg.module.calibration;
+      const moduleSalvage=goodCellsInInterventionModules*cfg.module.salvagePerGoodCell*cfg.module.recoveryFactor;
+      const moduleRisk=scaleProb(cfg.module.riskProb,openings)*cfg.module.riskImpact + scaleProb(cfg.module.recurrenceProb,openings)*cfg.module.recurrenceImpact;
+      const moduleNet=Math.max(0,moduleDirect+moduleRisk+monitoringPenalty-moduleSalvage);
+
+      const packDirect=cfg.pack.partCost+cfg.pack.labor;
+      const packSalvage=healthyCells*cfg.pack.salvagePerHealthyCell*cfg.pack.recoveryFactor;
+      const packRisk=cfg.pack.riskProb*cfg.pack.riskImpact;
+      const packNet=Math.max(0,packDirect+packRisk-packSalvage);
+
+      const options=[
+        {type:'cell',label:'Substituição de células',directCost:cellDirect,riskCost:cellRisk,monitoringCost:monitoringPenalty,salvageCredit:0,expectedCost:cellNet,count:interventionCells.length,downtime:cfg.downtime.cell,preservedPercent:Math.round((totalCells-interventionCells.length)/totalCells*100)},
+        {type:'module',label:'Substituição de módulo(s)',directCost:moduleDirect,riskCost:moduleRisk,monitoringCost:monitoringPenalty,salvageCredit:moduleSalvage,expectedCost:moduleNet,count:interventionModules.length,downtime:cfg.downtime.module,preservedPercent:Math.round((totalModules-interventionModules.length)/totalModules*100)},
+        {type:'pack',label:'Substituição do pack inteiro',directCost:packDirect,riskCost:packRisk,monitoringCost:0,salvageCredit:packSalvage,expectedCost:packNet,count:1,downtime:cfg.downtime.pack,preservedPercent:0}
+      ];
+      const recommended=[...options].sort((a,b)=>a.expectedCost-b.expectedCost)[0];
+      const actionTitle=recommended.type==='cell'
+        ? 'Substituição de '+interventionCells.length+' célula'+(interventionCells.length===1?'':'s')+' + balanceamento'
+        : recommended.type==='module'
+          ? 'Substituição de '+interventionModules.length+' módulo'+(interventionModules.length===1?'':'s')+' + calibração'
+          : 'Substituição do pack inteiro';
+
+      let rationale;
+      if(recommended.type==='cell'){
+        rationale='O critério técnico de intervenção foi atendido em '+interventionModules.length+' módulo'+(interventionModules.length===1?'':'s')+'. Nesse conjunto, substituir '+interventionCells.length+' células preserva mais valor que trocar o módulo completo.';
+      } else if(recommended.type==='module'){
+        rationale='Há '+interventionModules.length+' módulos que atendem aos critérios técnicos de intervenção. Como são módulos pequenos, a troca modular tem menor custo esperado que abrir cada um para substituir células individualmente.';
+      } else {
+        rationale='A degradação relevante atende ao critério de abertura em '+interventionModules.length+' módulos e atinge '+interventionCells.length+' células nesses conjuntos. O custo e o risco acumulados de múltiplas aberturas superam o valor preservado por reparos locais, tornando a troca do pack a alternativa de menor custo esperado.';
+      }
+      return {type,totalCells,totalModules,flagged,affectedModules,interventionModules,monitoredModules,interventionCells,monitoredCells,healthyCells,goodCellsInInterventionModules,monitoringPenalty,moduleStats,options,recommended,actionTitle,rationale};
+    }
+
+    function clamp(v,min,max){return Math.min(max,Math.max(min,v));}
+    function hexToRgb(hex){const m=hex.replace('#',''); return {r:parseInt(m.slice(0,2),16),g:parseInt(m.slice(2,4),16),b:parseInt(m.slice(4,6),16)};}
+    function rgbToHex(r,g,b){return '#'+[r,g,b].map(x=>Math.round(x).toString(16).padStart(2,'0')).join('');}
+    function mixColors(c1,c2,t){const a=hexToRgb(c1),b=hexToRgb(c2); return rgbToHex(a.r+(b.r-a.r)*t,a.g+(b.g-a.g)*t,a.b+(b.b-a.b)*t);}
+    function multiStopColor(stops,t){t=clamp(t,0,1); const scaled=t*(stops.length-1); const idx=Math.min(stops.length-2,Math.floor(scaled)); const local=scaled-idx; return mixColors(stops[idx],stops[idx+1],local);}
+    function getCurrentMapValue(type,globalCell,mapKey){
+      const metrics=getCellMetrics(type,globalCell);
+      if(mapKey==='temperature') return metrics.temperatureC;
+      if(mapKey==='voltage') return metrics.voltageV;
+      if(mapKey==='soh') return metrics.sohPercent;
+      return getCellStatus(type,globalCell);
+    }
+    function getMetricRange(type,mapKey){
+      const cellCount=type==='corolla'?168:96;
+      const values=[];
+      for(let i=1;i<=cellCount;i++) if(mapKey!=='wear') values.push(getCurrentMapValue(type,i,mapKey));
+      return {min:Math.min(...values),max:Math.max(...values)};
+    }
+    function getColorForCell(type,globalCell,mapKey){
+      if(mapKey==='wear'){
+        const status=getCellStatus(type,globalCell);
+        return status==='critical' ? '#EB0A1E' : status==='intermediate' ? '#F2C94C' : '#27AE60';
+      }
+      const value=getCurrentMapValue(type,globalCell,mapKey);
+      const range=getMetricRange(type,mapKey);
+      const t=range.max===range.min?0.5:(value-range.min)/(range.max-range.min);
+      if(mapKey==='temperature') return multiStopColor(['#1E88E5','#26C6DA','#F2C94C','#EB0A1E'],t);
+      if(mapKey==='voltage') return multiStopColor(['#EB0A1E','#F2C94C','#27AE60'],t);
+      if(mapKey==='soh') return multiStopColor(['#EB0A1E','#F2C94C','#27AE60'],t);
+      return '#27AE60';
+    }
+    function getBorderForCell(bg){ return mixColors(bg,'#ffffff',0.22); }
+    function renderMapLegend(type){
+      const cfg=mapModes[currentMap];
+      mapPanelTitle.textContent=cfg.title;
+      heatmapTooltip.innerHTML=cfg.tooltip;
+      if(currentMap==='wear'){
+        mapLegend.innerHTML='<div class="legend-swatches mono text-[11px]"><div class="legend-swatch"><i style="background:#27AE60"></i><span>Saudável</span></div><div class="legend-swatch"><i style="background:#F2C94C"></i><span>Desgaste intermediário</span></div><div class="legend-swatch"><i style="background:#EB0A1E"></i><span>Crítico</span></div></div><p class="legend-note">Classificação qualitativa do estado das células com base no cenário demonstrativo de desgaste.</p>';
+        return;
+      }
+      const range=getMetricRange(type,currentMap);
+      const unit=currentMap==='soh' ? '%' : currentMap==='voltage' ? 'V' : '°C';
+      const gradient=currentMap==='temperature' ? 'linear-gradient(90deg,#1E88E5 0%,#26C6DA 33%,#F2C94C 66%,#EB0A1E 100%)' : 'linear-gradient(90deg,#EB0A1E 0%,#F2C94C 50%,#27AE60 100%)';
+      const note=currentMap==='temperature' ? 'Escala de temperatura instantânea por célula.' : currentMap==='voltage' ? 'Escala da tensão demonstrativa por célula.' : 'Escala do estado de saúde estimado por célula.';
+      mapLegend.innerHTML='<div class="map-legend-gradient" style="background:'+gradient+'"></div><div class="legend-range"><span>'+range.min.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})+' '+unit+'</span><span>'+range.max.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:2})+' '+unit+'</span></div><p class="legend-note">'+note+'</p>';
+    }
+
+    function renderBatteryLayout(vehicleType){
+        grid.replaceChildren();
+        const data = specs[vehicleType];
+        grid.style.display = 'block';
+        const packBox = document.createElement('section');
+        packBox.className = 'battery-mother';
+
+        const packTitle = document.createElement('h3');
+        packTitle.className = 'battery-mother-title';
+        packTitle.textContent = data.layoutTitle;
+        packBox.appendChild(packTitle);
+
+        const modulesContainer = document.createElement('div');
+        modulesContainer.style.display = 'grid';
+        modulesContainer.style.gridTemplateColumns = vehicleType === 'corolla' ? 'repeat(7, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))';
+        modulesContainer.style.gap = vehicleType === 'corolla' ? '8px' : '12px';
+
+        const moduleCount = vehicleType === 'corolla' ? 28 : 4;
+        const cellsPerModule = VEHICLE_MODULE_SIZE[vehicleType];
+
+        for(let m = 1; m <= moduleCount; m++) {
+            const card = document.createElement('section');
+            card.className = 'battery-module';
+            card.style.padding = '8px';
+
+            const moduleLabel = document.createElement('div');
+            moduleLabel.className = 'battery-module-label';
+            moduleLabel.textContent = vehicleType === 'corolla' ? 'M' + pad2(m) + ' · 7,2 V' : 'MÓDULO ' + pad2(m) + ' · ' + cellsPerModule + ' células';
+            card.appendChild(moduleLabel);
+
+            const cells = document.createElement('div');
+            cells.className = 'cell-grid';
+            cells.style.gridTemplateColumns = vehicleType === 'corolla' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)';
+
+            let hasCritical = false;
+            for(let c = 1; c <= cellsPerModule; c++) {
+                const globalCell = (m - 1) * cellsPerModule + c;
+                const status = getCellStatus(vehicleType, globalCell);
+                const meta = getCellDescription(vehicleType, globalCell);
+                const cellColor=getColorForCell(vehicleType,globalCell,currentMap);
+
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.className = 'battery-cell focus-ring';
+                cell.title = meta.title;
+                cell.setAttribute('aria-label', meta.title + ' — ' + (status==='critical'?'Crítico':status==='intermediate'?'Desgaste intermediário':'Saudável'));
+                cell.style.background = cellColor;
+                cell.style.borderColor = getBorderForCell(cellColor);
+                if(status === 'critical') hasCritical = true;
+                if(currentMap==='wear' && status==='critical') cell.classList.add('critical');
+
+                cell.dataset.moduleName = meta.title;
+                cell.dataset.moduleDesc = meta.desc;
+                cell.addEventListener('click', e => {
+                    document.getElementById('modal-dynamic-title').textContent = e.currentTarget.dataset.moduleName;
+                    document.getElementById('modal-dynamic-desc').textContent = e.currentTarget.dataset.moduleDesc;
+                    openModal('module-modal', e.currentTarget);
+                });
+                cells.appendChild(cell);
+            }
+
+            if(currentMap==='wear' && hasCritical) card.classList.add('critical');
+            card.appendChild(cells);
+            modulesContainer.appendChild(card);
+        }
+        packBox.appendChild(modulesContainer);
+        grid.appendChild(packBox);
+        renderMapLegend(vehicleType);
+    }
+
+    const vehicle=document.getElementById('vehicle-select');
+    let currentDecision=null;
+    function vehicleUpdate(){
+        const type = vehicle.value;
+        const data = specs[type];
+        const vehicleName = vehicle.options[vehicle.selectedIndex].textContent;
+        currentDecision=evaluateInterventions(type);
+        const decision=currentDecision;
+        const criticalCount = data.criticalCells.length;
+        const intermediateCount = data.intermediateCells.length;
+        const interventionCount = criticalCount + intermediateCount;
+
+        document.getElementById('vehicle-display').textContent = vehicleName;
+        document.getElementById('pack-layout-label').textContent = data.packLayoutLabel;
+        document.getElementById('pack-cell-label').textContent = data.packCellLabel;
+        document.getElementById('pack-profile-specs').textContent = data.packProfileSpecs;
+
+        const diagSignaledEl = document.getElementById('diag-signaled');
+        const diagRecommendationEl = document.getElementById('diag-recommendation');
+        diagSignaledEl.textContent = decision.flagged.length+' célula'+(decision.flagged.length===1?'':'s')+' · '+criticalCount+' crítica'+(criticalCount===1?'':'s')+' + '+intermediateCount+' intermediária'+(intermediateCount===1?'':'s');
+        diagRecommendationEl.textContent = decision.actionTitle;
+
+        document.getElementById('industry-cost').textContent = data.priceFull;
+        document.getElementById('industry-waste').textContent = data.wasteFull;
+        document.getElementById('industry-downtime').textContent = 'Referência de troca integral · '+data.decisionModel.downtime.pack;
+        document.getElementById('modular-title').textContent = decision.actionTitle;
+        document.getElementById('modular-cost').textContent = currencyBRL(decision.recommended.directCost);
+        document.getElementById('decision-preserved').textContent = decision.recommended.preservedPercent+'% do material do pack permanece instalado no veículo';
+        document.getElementById('decision-downtime').textContent = 'Tempo estimado de intervenção: '+decision.recommended.downtime;
+        document.getElementById('decision-rationale').textContent = decision.rationale;
+
+        document.getElementById('driver-alert-copy').textContent = 'Intervenção recomendada: '+decision.actionTitle;
+        document.getElementById('protocol-copy').textContent = 'O motor de decisão primeiro avalia se o estado do módulo justifica uma intervenção e depois compara substituição celular, modular e integral considerando custo direto, risco e valor recuperável.';
+        document.getElementById('protocol-detail').innerHTML = '<b>Recomendação:</b> '+decision.actionTitle+'<br><b>Células em intervenção:</b> '+decision.interventionCells.map(c=>getCellId(type,c)).join(', ')+'<br><b>Módulos de intervenção:</b> '+decision.interventionModules.join(', ')+'<br><b>Células em monitoramento:</b> '+(decision.monitoredCells.length?decision.monitoredCells.map(c=>getCellId(type,c)).join(', '):'nenhuma')+'<br><b>Critério técnico:</b> condição e distribuição da degradação no módulo.<br><b>Critério econômico:</b> menor custo esperado ajustado por risco e valor recuperável.';
+        
+        const packHealth=getPackHealthSummary(type);
+        document.getElementById('telemetry-soh').textContent = packHealth.avgSoh.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+        document.getElementById('telemetry-rul').textContent = formatRul(packHealth.packRulMonths);
+        document.getElementById('telemetry-cycles').textContent = data.cycles;
+        document.getElementById('telemetry-stress').textContent = decision.recommended.type==='cell'
+          ? decision.interventionCells.length+' células · '+decision.interventionModules.length+' módulo'+(decision.interventionModules.length===1?'':'s')
+          : decision.recommended.type==='module'
+            ? decision.interventionModules.length+' módulo'+(decision.interventionModules.length===1?'':'s')
+            : 'Pack inteiro';
+            
+        // ----- ATUALIZAÇÃO DA NOVA VISTA B2C (PASSAPORTE) -----
+        const vNameParts = vehicleName.split(' - Chassi: ');
+        document.getElementById('owner-vehicle-name').textContent = vNameParts[0];
+        document.getElementById('owner-vin').textContent = vNameParts[1] ? vNameParts[1] + '...' : 'N/D';
+        document.getElementById('owner-battery-arch').textContent = data.packCellLabel.replace('CÉLULAS', 'células').toLowerCase();
+        document.getElementById('owner-date').textContent = new Date().toLocaleDateString('pt-BR');
+
+        const sohValue = packHealth.avgSoh;
+        document.getElementById('owner-soh').textContent = sohValue.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+        document.getElementById('owner-rul').textContent = formatRul(packHealth.packRulMonths).replace(' anos', '');
+        
+        const sohCircle = document.getElementById('owner-soh-circle');
+        if(sohCircle) {
+          const offset = 251.2 - (251.2 * (sohValue / 100));
+          sohCircle.style.strokeDashoffset = offset;
+          
+          const packRul=packHealth.packRulMonths;
+          const color = packRul > 24 ? '#27AE60' : (packRul >= 12 ? '#F2C94C' : '#EB0A1E');
+          sohCircle.setAttribute('stroke', color);
+          
+          const statusTitle = document.getElementById('owner-status-title');
+          const statusDesc = document.getElementById('owner-status-desc');
+          const statusIcon = document.getElementById('owner-status-icon');
+          
+          if(packRul > 24) {
+              statusTitle.textContent = 'Bateria Saudável';
+              statusTitle.style.color = '#27AE60';
+              statusDesc.textContent = 'A distribuição celular indica mais de 2 anos até o limite crítico de 65% de SOH no indicador conservador do pack.';
+              statusIcon.setAttribute('data-lucide', 'shield-check');
+              statusIcon.style.color = '#27AE60';
+          } else if (packRul >= 12) {
+              statusTitle.textContent = 'Desgaste Moderado';
+              statusTitle.style.color = '#F2C94C';
+              statusDesc.textContent = 'O indicador conservador do pack está entre 1 e 2 anos do limite crítico de 65% de SOH.';
+              statusIcon.setAttribute('data-lucide', 'alert-triangle');
+              statusIcon.style.color = '#F2C94C';
+          } else {
+              statusTitle.textContent = 'Atenção Necessária';
+              statusTitle.style.color = '#EB0A1E';
+              statusDesc.textContent = 'O indicador conservador do pack está a menos de 1 ano do limite de 65% de SOH. Recomendada avaliação técnica.';
+              statusIcon.setAttribute('data-lucide', 'alert-circle');
+              statusIcon.style.color = '#EB0A1E';
+          }
+        }
+        // ------------------------------------------------------
+
+        const copilotButtons=document.querySelectorAll('.copilot');
+        if(copilotButtons[0]) copilotButtons[0].dataset.answer = 'Foram sinalizadas '+decision.flagged.length+' células. Após avaliar a condição e a distribuição da degradação nos módulos, '+decision.interventionCells.length+' células de '+decision.interventionModules.length+' módulo'+(decision.interventionModules.length===1?'':'s')+' entram no reparo recomendado. A prioridade técnica está em '+data.diagName+'.';
+        if(copilotButtons[1]) copilotButtons[1].dataset.answer = decision.actionTitle+'. '+decision.rationale;
+        
+        renderBatteryLayout(type);
+        preservationActive=false;
+        updatePreservationUI();
+        renderSohHistoryChart();
+        if (window.lucide) lucide.createIcons();
+    }
+    vehicle.onchange=vehicleUpdate;
+    mapSelect.onchange=()=>{currentMap=mapSelect.value; renderBatteryLayout(vehicle.value);};
+
+    document.getElementById('protocol-button').addEventListener('click',e=>openModal('protocol-modal',e.currentTarget));document.getElementById('service-order').addEventListener('click',e=>openModal('service-modal',e.currentTarget));
+    const heatmapInfo=document.querySelector('.heatmap-info'),heatmapInfoButton=document.getElementById('heatmap-info-button');function setHeatmapTooltip(open){heatmapInfo.classList.toggle('is-open',open);heatmapInfoButton.setAttribute('aria-expanded',String(open))}heatmapInfoButton.addEventListener('click',e=>{e.stopPropagation();setHeatmapTooltip(!heatmapInfo.classList.contains('is-open'))});heatmapInfo.addEventListener('mouseleave',()=>setHeatmapTooltip(false));document.addEventListener('click',e=>{if(!heatmapInfo.contains(e.target))setHeatmapTooltip(false)});
+    document.getElementById('select-repair').addEventListener('click',()=>toast(currentDecision ? currentDecision.actionTitle+' selecionada para a ordem de serviço.' : 'Intervenção recomendada selecionada.'));
+
+    const dealer=document.getElementById('dealer-tab'),owner=document.getElementById('owner-tab');
+    function profile(isOwner){
+      document.getElementById('dealer-view').classList.toggle('hidden-view',isOwner);
+      document.getElementById('dealer-actions-banner').classList.toggle('hidden-view',isOwner);
+      document.getElementById('owner-view').classList.toggle('hidden-view',!isOwner);
+      dealer.setAttribute('aria-selected',String(!isOwner));
+      owner.setAttribute('aria-selected',String(isOwner));
+      if(isOwner) setTimeout(() => vehicleUpdate(), 100);
+    }
+    dealer.onclick=()=>profile(false);owner.onclick=()=>profile(true);
+
+    let preservationActive=false;
+    const SOH_NS='http://www.w3.org/2000/svg';
+    function svgEl(tag,attrs={}){const el=document.createElementNS(SOH_NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));return el;}
+    function cellWearColor(status){return status==='critical'?'#EB0A1E':status==='intermediate'?'#F2C94C':'#27AE60';}
+    function cellWearMutedColor(status){return status==='critical'?'#A95F66':status==='intermediate'?'#B9A75F':'#628B70';}
+    function projectedRulMonths(metrics,preserve=false){
+      return metrics.rulMonths/(preserve?PRESERVATION_AGING_FACTOR:1);
+    }
+    function getSohTrajectory(type,cellNumber){
+      const m=getCellMetrics(type,cellNumber);
+      const historical=[];
+      const stepHistory=3;
+      for(let age=0;age<=m.serviceMonths;age+=stepHistory){
+        const soh=age===0?100:sohAtEquivalentAge(m.totalLifeMonths,age);
+        historical.push({month:age,soh:Number(soh.toFixed(2))});
+      }
+      if(historical[historical.length-1].month!==m.serviceMonths){
+        historical.push({month:m.serviceMonths,soh:m.sohPercent});
+      }else{
+        historical[historical.length-1].soh=m.sohPercent;
+      }
+
+      const factor=preservationActive?PRESERVATION_AGING_FACTOR:1;
+      const projectedRul=projectedRulMonths(m,preservationActive);
+      const future=[{month:m.serviceMonths,soh:m.sohPercent}];
+      const stepFuture=3;
+      for(let delta=stepFuture;delta<projectedRul;delta+=stepFuture){
+        const equivalentAge=m.serviceMonths+delta*factor;
+        const soh=sohAtEquivalentAge(m.totalLifeMonths,equivalentAge);
+        future.push({month:m.serviceMonths+delta,soh:Number(Math.max(SOH_EOL_SCENARIO,soh).toFixed(2))});
+      }
+      future.push({month:m.serviceMonths+Number(projectedRul.toFixed(1)),soh:SOH_EOL_SCENARIO});
+      return {metrics:m,historical,future,projectedRulMonths:projectedRul};
+    }
+
+    function renderSohHistoryChart(){
+      const svg=document.getElementById('soh-history-chart');
+      const wrap=document.getElementById('soh-chart-wrap');
+      const scroll=document.getElementById('soh-chart-scroll');
+      const yAxisOverlay=document.getElementById('soh-y-axis-overlay');
+      const tooltip=document.getElementById('soh-chart-tooltip');
+      if(!svg||!wrap||!scroll||!yAxisOverlay||!tooltip) return;
+
+      const previousRatio=scroll.scrollWidth>scroll.clientWidth ? scroll.scrollLeft/(scroll.scrollWidth-scroll.clientWidth) : null;
+      svg.replaceChildren();
+
+      const type=vehicle.value;
+      const cellCount=type==='corolla'?168:96;
+      const trajectories=Array.from({length:cellCount},(_,i)=>getSohTrajectory(type,i+1));
+      const serviceMonths=SERVICE_MONTHS[type];
+      const maxAgeMonth=Math.ceil(Math.max(...trajectories.map(t=>t.future[t.future.length-1].month),serviceMonths+24)/12)*12;
+
+      const H=430,margin={l:64,r:55,t:28,b:52};
+      const pixelsPerYear=145;
+      const W=Math.max(1450,Math.round((maxAgeMonth/12)*pixelsPerYear)+margin.l+margin.r);
+      const minMonth=0,maxMonth=maxAgeMonth,minSoh=60,maxSoh=100;
+      const x=m=>margin.l+(m-minMonth)/(maxMonth-minMonth)*(W-margin.l-margin.r);
+      const y=s=>margin.t+(maxSoh-s)/(maxSoh-minSoh)*(H-margin.t-margin.b);
+
+      svg.setAttribute('viewBox','0 0 '+W+' '+H);
+      svg.style.width=W+'px';
+      svg.style.height=H+'px';
+
+      const title=svgEl('title',{id:'soh-chart-title'});title.textContent='Evolução e projeção do SOH por célula';svg.appendChild(title);
+      const desc=svgEl('desc',{id:'soh-chart-desc'});desc.textContent='Eixo horizontal representa a idade simulada da bateria. Linhas contínuas mostram todo o histórico desde 100% de SOH durante cerca de 7 a 8 anos. Linhas tracejadas projetam cada célula até o EOL de 65%.';svg.appendChild(desc);
+      svg.appendChild(svgEl('rect',{x:0,y:0,width:W,height:H,fill:'#202023'}));
+
+      [65,70,80,90,100].forEach(v=>{
+        const gy=y(v);
+        svg.appendChild(svgEl('line',{x1:margin.l,y1:gy,x2:W-margin.r,y2:gy,stroke:v===65?'#8f444b':'#404046','stroke-width':v===65?1.5:1,'stroke-dasharray':v===65?'7 5':'none'}));
+        if(v===65){
+          const eol=svgEl('text',{x:W-margin.r-4,y:gy-8,fill:'#E29AA1','font-size':10,'font-family':'Space Mono, monospace','text-anchor':'end'});
+          eol.textContent='FIM DE VIDA · 65%';
+          svg.appendChild(eol);
+        }
+      });
+
+      for(let m=0;m<=maxMonth;m+=12){
+        const gx=x(m);
+        const isCurrent=Math.abs(m-serviceMonths)<6;
+        svg.appendChild(svgEl('line',{
+          x1:gx,y1:margin.t,x2:gx,y2:H-margin.b,
+          stroke:isCurrent?'#6f9db2':(m%24===0?'#3d3d42':'#303034'),
+          'stroke-width':isCurrent?1.5:1,
+          'stroke-dasharray':isCurrent?'5 4':'none'
+        }));
+        if(m%12===0){
+          const t=svgEl('text',{x:gx,y:H-margin.b+23,fill:isCurrent?'#BFE7F7':'#A6A7AC','font-size':10,'font-family':'Space Mono, monospace','text-anchor':'middle'});
+          t.textContent=(m/12).toLocaleString('pt-BR',{maximumFractionDigits:1})+'a';
+          svg.appendChild(t);
+        }
+      }
+
+      // Marca a idade atual exata (7–8 anos, dependendo do cenário).
+      const currentX=x(serviceMonths);
+      svg.appendChild(svgEl('line',{x1:currentX,y1:margin.t,x2:currentX,y2:H-margin.b,stroke:'#4DB6E6','stroke-width':2,'stroke-dasharray':'5 4'}));
+      const currentLabel=svgEl('text',{x:currentX+6,y:margin.t+14,fill:'#8ED7F7','font-size':10,'font-family':'Space Mono, monospace','font-weight':'700'});
+      currentLabel.textContent='HOJE · '+(serviceMonths/12).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' ANOS';
+      svg.appendChild(currentLabel);
+
+      // O eixo Y fica em uma camada estática acima da área rolável.
+      // Como ele não participa do scroll, não há reposicionamento por JavaScript nem tremor visual.
+      yAxisOverlay.replaceChildren();
+      yAxisOverlay.appendChild(svgEl('rect',{x:0,y:0,width:margin.l,height:H-margin.b+1,fill:'#202023',opacity:'.97'}));
+      yAxisOverlay.appendChild(svgEl('line',{x1:margin.l-0.5,y1:margin.t,x2:margin.l-0.5,y2:H-margin.b,stroke:'#68686d','stroke-width':1}));
+      [65,70,80,90,100].forEach(v=>{
+        const gy=y(v);
+        const t=svgEl('text',{x:margin.l-10,y:gy+4,fill:v===65?'#E29AA1':'#A6A7AC','font-size':10,'font-family':'Space Mono, monospace','text-anchor':'end'});
+        t.textContent=v+'%';
+        yAxisOverlay.appendChild(t);
+      });
+      const yLabel=svgEl('text',{x:18,y:H/2,fill:'#D9DADD','font-size':11,'font-family':'Space Mono, monospace',transform:'rotate(-90 18 '+H/2+')','text-anchor':'middle'});
+      yLabel.textContent='SOH (%)';
+      yAxisOverlay.appendChild(yLabel);
+
+      const defs=svgEl('defs');
+      const clip=svgEl('clipPath',{id:'soh-plot-clip'});
+      clip.appendChild(svgEl('rect',{x:margin.l,y:margin.t,width:W-margin.l-margin.r,height:H-margin.t-margin.b}));
+      defs.appendChild(clip);
+      svg.appendChild(defs);
+      const plot=svgEl('g',{'clip-path':'url(#soh-plot-clip)'});
+      svg.appendChild(plot);
+      const pathString=pts=>pts.map((p,i)=>(i?'L':'M')+x(p.month).toFixed(1)+' '+y(p.soh).toFixed(1)).join(' ');
+
+      let hovered=null;
+      function resetHovered(){
+        if(!hovered)return;
+        hovered.hist.setAttribute('stroke',hovered.baseColor);
+        hovered.hist.setAttribute('stroke-width','1');
+        hovered.hist.setAttribute('opacity','.50');
+        hovered.proj.setAttribute('stroke',hovered.baseColor);
+        hovered.proj.setAttribute('stroke-width','1');
+        hovered.proj.setAttribute('opacity','.62');
+        hovered.label.setAttribute('opacity','0');
+        tooltip.style.display='none';
+        hovered=null;
+      }
+
+      for(let cell=1;cell<=cellCount;cell++){
+        const tr=trajectories[cell-1];
+        const baseColor=cellWearMutedColor(tr.metrics.status);
+        const hist=svgEl('path',{d:pathString(tr.historical),fill:'none',stroke:baseColor,'stroke-width':1,opacity:.50,'vector-effect':'non-scaling-stroke'});
+        const proj=svgEl('path',{d:pathString(tr.future),fill:'none',stroke:baseColor,'stroke-width':1,opacity:.62,'stroke-dasharray':'6 5','vector-effect':'non-scaling-stroke'});
+        plot.appendChild(hist);plot.appendChild(proj);
+
+        const hitHist=svgEl('path',{d:hist.getAttribute('d'),fill:'none',stroke:'transparent','stroke-width':9,'vector-effect':'non-scaling-stroke'});
+        const hitProj=svgEl('path',{d:proj.getAttribute('d'),fill:'none',stroke:'transparent','stroke-width':9,'vector-effect':'non-scaling-stroke'});
+        plot.appendChild(hitHist);plot.appendChild(hitProj);
+
+        const currentLabelCell=svgEl('text',{
+          x:currentX+5,
+          y:y(tr.metrics.sohPercent)-4,
+          fill:cellWearColor(tr.metrics.status),
+          'font-size':11,
+          'font-family':'Space Mono, monospace',
+          'font-weight':'700',
+          opacity:'0',
+          'pointer-events':'none'
+        });
+        currentLabelCell.textContent=getCellId(type,cell);
+        svg.appendChild(currentLabelCell);
+
+        const enter=()=>{
+          resetHovered();
+          const color=cellWearColor(tr.metrics.status);
+          hist.setAttribute('stroke',color);
+          proj.setAttribute('stroke',color);
+          hist.setAttribute('stroke-width','3');
+          proj.setAttribute('stroke-width','3');
+          hist.setAttribute('opacity','1');
+          proj.setAttribute('opacity','1');
+          currentLabelCell.setAttribute('opacity','1');
+          plot.appendChild(hist);plot.appendChild(proj);plot.appendChild(hitHist);plot.appendChild(hitProj);svg.appendChild(currentLabelCell);
+          hovered={hist,proj,baseColor,label:currentLabelCell};
+
+          const projectedLife=Math.max(1,Math.round(tr.projectedRulMonths));
+          tooltip.innerHTML=
+            '<b>'+getCellId(type,cell)+'</b>'+
+            '<br>Idade atual: '+(tr.metrics.serviceMonths/12).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' anos'+
+            '<br>SOH atual: '+tr.metrics.sohPercent.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%'+
+            '<br>RUL até 65%: '+formatRul(tr.metrics.rulMonths)+
+            (preservationActive?'<br>Com preservação: '+formatRul(projectedLife):'')+
+            '<br>Condição: '+tr.metrics.statusLabel;
+          tooltip.style.display='block';
+        };
+        const move=e=>{
+          const rect=wrap.getBoundingClientRect();
+          let left=e.clientX-rect.left+12,top=e.clientY-rect.top+12;
+          if(left+205>rect.width)left=e.clientX-rect.left-210;
+          if(top+95>rect.height)top=e.clientY-rect.top-102;
+          tooltip.style.left=Math.max(4,left)+'px';
+          tooltip.style.top=Math.max(4,top)+'px';
+        };
+        [hitHist,hitProj].forEach(hit=>{
+          hit.addEventListener('mouseenter',enter);
+          hit.addEventListener('mousemove',move);
+          hit.addEventListener('mouseleave',resetHovered);
+        });
+      }
+
+      // Restaura apenas a posição horizontal do conteúdo. Os eixos ficam em overlays estáticos.
+      scroll.onscroll=null;
+      requestAnimationFrame(()=>{
+        const maxScroll=Math.max(0,scroll.scrollWidth-scroll.clientWidth);
+        if(maxScroll>0){
+          if(previousRatio!==null){
+            scroll.scrollLeft=maxScroll*previousRatio;
+          }else{
+            const desired=Math.max(0,currentX-scroll.clientWidth*0.68);
+            scroll.scrollLeft=Math.min(maxScroll,desired);
+          }
+        }
+      });
+
+      document.getElementById('preservation-chart-state').textContent=preservationActive?'PRESERVAÇÃO ATIVA':'PROJEÇÃO PADRÃO';
+    }
+
+    function updatePreservationUI(){
+      const button=document.getElementById('activate-preservation');
+      const impact=document.getElementById('preservation-impact');
+      if(!button||!impact)return;
+      if(preservationActive){button.textContent='Desativar modo Preservação Ativa';impact.textContent='Projeção recalculada: envelhecimento futuro equivalente reduzido e maior tempo estimado até o limite de 65% de SOH.';}
+      else{button.textContent='Ativar modo Preservação Ativa';impact.textContent='Projeção atual: cenário padrão de utilização.';}
+    }
+    document.getElementById('activate-preservation').addEventListener('click',()=>{preservationActive=!preservationActive;updatePreservationUI();renderSohHistoryChart();toast(preservationActive?'Preservação Ativa aplicada às projeções futuras.':'Projeção padrão restaurada.');});
+    document.querySelectorAll('.copilot').forEach(b=>b.onclick=()=>document.getElementById('copilot-result').textContent=b.dataset.answer);
+    
+    // ===== BOTÕES DE IMPRESSÃO (B2B VS B2C) =====
+    document.getElementById('certificate-button').onclick=e=>{renderReport();openModal('certificate-modal',e.currentTarget)};
+    document.getElementById('print-certificate').onclick=()=>{
+      document.body.classList.remove('print-b2c');
+      window.print();
+    };
+    
+    // O novo botão "Imprimir Passaporte PDF" do modo Cliente (B2C)
+    document.getElementById('owner-download-btn').addEventListener('click', () => {
+      document.body.classList.add('print-b2c'); // Troca as regras do CSS @media print
+      setTimeout(() => {
+        window.print(); // Abre diálogo de impressão apenas com a tela do passaporte
+        document.body.classList.remove('print-b2c'); // Restaura quando voltar
+      }, 100);
+    });
+
+    document.addEventListener('DOMContentLoaded',()=>{if(window.lucide)lucide.createIcons();vehicleUpdate();});
+
+    let currentReport=null;
+    function buildReport(){
+      const type=vehicle.value;
+      const data=specs[type];
+      const cellCount=type==='corolla'?168:96;
+      const rows=Array.from({length:cellCount},(_,i)=>{
+        const globalCell=i+1;
+        const status=getCellStatus(type,globalCell);
+        const id=getCellId(type,globalCell);
+        const metrics=getCellMetrics(type,globalCell);
+        const statusLabel=metrics.status==='critical'?'Crítico (cenário)':metrics.status==='intermediate'?'Intermediário (cenário)':'Saudável (cenário)';
+        return {id,unit:'célula',voltageV:metrics.voltageV,sohPercent:metrics.sohPercent,rulMonths:metrics.rulMonths,status:statusLabel,resistance:metrics.resistance,temperatureC:metrics.temperatureC,source:'Sintético: valores ilustrativos, sem medição e sem predição validada'};
+      });
+      const criticalCount=rows.filter(x=>x.status.startsWith('Crítico')).length;
+      const intermediateCount=rows.filter(x=>x.status.startsWith('Intermediário')).length;
+      const healthyCount=rows.length-criticalCount-intermediateCount;
+      const decision=evaluateInterventions(type);
+      const packHealth=getPackHealthSummary(type);
+      return {id:'VT-DEMO-'+(globalThis.crypto?.randomUUID?.()||Date.now().toString(36)),issuedAt:new Date().toISOString(),vehicle:vehicle.options[vehicle.selectedIndex].textContent,type,unsupported:false,unit:'célula',profile:data.profile,packSohDemo:packHealth.avgSoh,packRulYearsDemo:packHealth.packRulMonths/12,rows,criticalCount,intermediateCount,healthyCount,method:'VT-DEMO-4: histórico sintético cobrindo aproximadamente 7–8 anos desde 100% de SOH; degradação quase linear com leve aceleração perto do EOL; fim de vida em 65% e vida total média de referência próxima de 10 anos; células degradadas recebem menor RUL de forma determinística e reprodutível; sem modelo eletroquímico validado',rulCriterion:'Fim de vida: 65% de SOH. Crítico < 1 ano; intermediário entre 1 e 2 anos; saudável > 2 anos. Vida nominal média de referência: 10 anos.',confidenceInterval:null,decision};
+    }
+    const reportEscape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const reportNumber=(value,digits=1)=>Number(value).toLocaleString('pt-BR',{minimumFractionDigits:digits,maximumFractionDigits:digits});
+    function renderReport(){
+      const r=currentReport=buildReport();
+      const priority=r.rows.find(x=>x.status.startsWith('Crítico'))||r.rows.find(x=>x.status.startsWith('Intermediário'))||r.rows[0];
+      const voltages=r.rows.map(x=>x.voltageV);
+      const spread=voltages.length?reportNumber(Math.max(...voltages)-Math.min(...voltages),2):'—';
+      const rowHTML=r.rows.map(x=>`<tr class="${x.status.startsWith('Crítico')||x.status.startsWith('Intermediário')?'alert-row':''}"><td>${x.id}</td><td>${reportNumber(x.voltageV,2)}</td><td>${reportNumber(x.sohPercent)}</td><td>${x.rulMonths}</td><td>${x.status}</td><td>${x.resistance}</td></tr>`).join('');
+      document.getElementById('report-content').innerHTML=`
+        <p class="report-note"><b>SIMULAÇÃO — SEM VALIDADE DE DIAGNÓSTICO.</b> Os números deste laudo são fictícios. A distribuição de células saudáveis, intermediárias e críticas foi ajustada apenas para demonstrar a interface. Não representam medições, previsão de falha ou liberação do veículo.</p>
+        <h3>1. Identificação e rastreabilidade</h3>
+        <p><b>Veículo:</b> ${reportEscape(r.vehicle)}<br><b>Relatório:</b> ${r.id}<br><b>Emissão:</b> ${new Date(r.issuedAt).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'})} (Brasília)<br><b>Configuração:</b> ${r.profile}</p>
+        <p>VIN completo, placa, quilometragem, número de série da bateria, data da coleta e responsável técnico: <b>não informados</b>. A emissão indica a geração do documento, não uma inspeção.</p>
+        <h3>2. Resumo da condição</h3>
+        <div class="report-kpis"><div>SOH do pack no protótipo<strong>${reportNumber(r.packSohDemo)}%</strong></div><div>RUL do pack no protótipo<strong>${reportNumber(r.packRulYearsDemo)} anos</strong></div><div>Unidades detalhadas<strong>${r.rows.length} células</strong></div></div>
+        <p>O cenário contém <b>${r.criticalCount} células críticas</b>, <b>${r.intermediateCount} células com desgaste intermediário</b> e <b>${r.healthyCount} células saudáveis</b>. Amplitude demonstrativa das tensões da tabela: <b>${spread} V</b>.</p>
+        <p>O SOH global é calculado pela média das células sintéticas e a RUL do pack usa um percentil baixo da distribuição de RUL para representar de forma conservadora o conjunto. Ambos são demonstrativos e não garantem o tempo real de operação do pack.</p>
+        <h3>3. Decisão técnico-econômica</h3>
+        <p><b>Intervenção recomendada:</b> ${r.decision.actionTitle}. O motor comparou troca de células, módulos e pack inteiro considerando custo direto, concentração da degradação, risco esperado de abertura/retrabalho, risco de reincidência, células mantidas em monitoramento e valor recuperável de componentes saudáveis. ${r.decision.rationale}</p>
+        <p>${priority?`Unidade de maior atenção: <b>${priority.id}</b>, com tensão demonstrativa de <b>${reportNumber(priority.voltageV,2)} V</b>, resistência interna <b>${priority.resistance.toLowerCase()}</b>, SOH fictício de <b>${reportNumber(priority.sohPercent)}%</b> e RUL fictícia de <b>${priority.rulMonths} meses</b>.`:''}</p>
+        <h3>4. Condição e vida restante por célula</h3>
+        <p><b>Todos os valores da tabela são demonstrativos.</b> A classificação usada é: crítico para RUL &lt; 12 meses, intermediário para RUL entre 12 e 24 meses e saudável para RUL &gt; 24 meses. O limite de fim de vida adotado no cenário é 65% de SOH e a vida nominal média de referência para uma célula saudável é 10 anos. SOH e RUL são sintéticos e não possuem intervalo de confiança validado.</p>
+        <p>Identificação: <b>Mxx-Cyy</b> = módulo e posição da célula. O protótipo usa essa convenção para todos os veículos exibidos na interface.</p>
+        <div class="report-table-wrap"><table><thead><tr><th>Unidade</th><th>Tensão (V)</th><th>SOH (%)</th><th>RUL (meses)</th><th>Condição</th><th>Resistência interna</th></tr></thead><tbody>${rowHTML||'<tr><td colspan="6">Perfil específico não cadastrado.</td></tr>'}</tbody></table></div>
+        <h3>5. Dados ausentes e qualidade da informação</h3>
+        <p>Não disponíveis por unidade: capacidade medida (Ah), resistência em mΩ, SOC durante a coleta, corrente, ciclos completos, histórico temporal e incerteza dos sensores. A temperatura exibida é sintética neste protótipo. Não há conexão BMS, ensaio de capacidade ou modelo de vida útil validado neste protótipo.</p>
+        <h3>6. Método e limites da projeção</h3>
+        <p>${r.method}. Os exemplos permanecem constantes entre emissões para o mesmo veículo. A RUL não foi deduzida da tensão. Um cálculo real requer dados históricos, condições de utilização e um critério explícito de fim de vida. A confiança estatística e o erro de previsão são <b>não avaliados</b>.</p>
+        <h3>7. Conclusão e encaminhamento</h3>
+        <p>O cenário recomenda <b>${r.decision.actionTitle}</b>.  A projeção de +12 meses exibida na interface continua sendo uma hipótese demonstrativa, não um resultado calculado.</p>
+        <h3>8. Validação e responsabilidade</h3>
+        <p>Responsável técnico: não designado · Revisão: pendente · Assinatura: ausente.<br>Valor residual: não avaliado. Identificador local para referência; não há assinatura digital ou trilha de auditoria autenticada.</p>
+        <div class="report-footer">MoEnergy · ${r.id} · Cenário VT-DEMO-1 · Documento demonstrativo gerado no navegador.</div>`;
+    }
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('certificate-modal').classList.contains('open'))closeModal('certificate-modal')});
+    window.addEventListener('beforeprint',()=>{if(!currentReport||currentReport.vehicle!==vehicle.options[vehicle.selectedIndex].textContent)renderReport()});
+  </script>
+</body>
+</html>
